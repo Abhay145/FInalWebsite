@@ -19,12 +19,7 @@ dotenv.config();
 const app = express();
 
 // Configure CORS
-app.use(
-  cors({
-    origin: 'https://nitkkropen.vercel.app/', // Replace with your frontend domain
-    credentials: true, // Allow cookies if needed
-  })
-);
+app.use( cors());
 
 // Middleware for parsing JSON and larger payloads
 app.use(express.json({ limit: '50mb' }));
