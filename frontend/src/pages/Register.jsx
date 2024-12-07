@@ -30,7 +30,7 @@ export default function Register() {
 
     const encryptedUsername = localStorage.getItem("username");
 
-    const secretKey =  import.meta.env.VITE_CRYPTO_SECRET;
+    const secretKey =  import.meta.env.VITE_CRYPTO_hello;
 
 
     const rollNumber = CryptoJS.AES.decrypt(encryptedUsername, secretKey).toString(CryptoJS.enc.Utf8);
@@ -56,7 +56,7 @@ console.log(rollNumber)
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/student/register",
+        "https://openelectivenitkkr.vercel.app/api/student/register",
         { rollNumber }
       );
       setFormData((prev) => ({
@@ -104,7 +104,7 @@ console.log(rollNumber)
     }
 
     try {
-      await axios.post("http://localhost:5000/api/student/register", {
+      await axios.post("https://openelectivenitkkr.vercel.app/api/student/register", {
         rollNumber: formData.rollNumber,
         password: formData.password,
       });
