@@ -14,23 +14,23 @@ export default function OtpVerification() {
       setError("Please enter a valid email address.");
       return;
     }
-  
+
     // Frontend domain validation
     if (!email.endsWith("@nitkkr.ac.in")) {
       setError("Please use your NIT KKR email address (e.g., example@nitkkr.ac.in).");
       return;
     }
-  
+
     try {
       setError("");
-      const response = await fetch("https://openelectivenitkkr.vercel.app/send-otp", {
+      const response = await fetch("http://localhost:5000/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-  
+
       const result = await response.json();
-  
+
       if (result.success) {
         alert(`OTP sent to ${email}`);
         setIsOtpSent(true);
@@ -42,29 +42,41 @@ export default function OtpVerification() {
       setError("An error occurred. Please try again.");
     }
   };
-  
 
-  const verifyOTP = () => {
+  const verifyOTP = async () => {
     if (!otp) {
-      setError("Please enter the OTP.");
-      return;
+        setError("Please enter the OTP.");
+        return;
     }
 
     try {
-      // You can extend this to verify the OTP on the backend
-      // Currently, assuming backend handles verification logic
-      alert("Email verified successfully!");
-      const username = email.split("@")[0]; // Extract username from email
+        setError(""); // Clear any previous errors
+        const response = await fetch("http://localhost:5000/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, otp }),
+        });
 
-      localStorage.setItem("isVerified", "true"); // Save verification status
-      localStorage.setItem("username", username); // Save the username
+        const result = await response.json();
 
-      navigate("/Register", { state: { email } }); // Redirect with email info
+        if (result.success) {
+            alert("Email verified successfully!");
+            const username = email.split("@")[0]; // Extract username from email
+
+            // Save verification status and username in localStorage
+            localStorage.setItem("isVerified", "true");
+            localStorage.setItem("username", username);
+
+            // Navigate to the registration page with the email as state
+            navigate("/Register", { state: { email } });
+        } else {
+            setError(result.message || "Failed to verify OTP. Please try again.");
+        }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
-      setError("Failed to verify OTP. Please try again.");
+        console.error("Error verifying OTP:", error);
+        setError("An error occurred. Please try again.");
     }
-  };
+};
 
   return (
     <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
