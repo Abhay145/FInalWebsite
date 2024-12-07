@@ -6,7 +6,7 @@ const { authMiddleware, adminMiddleware } = require('../middleware/authMiddlewar
 const router = express.Router();
 
 router.post('/register', registerAdmin);
-router.post('/login', loginAdmin);
+router.post('/login',loginAdmin);
 router.get('/students', authMiddleware, adminMiddleware, getAllStudents);
 router.get('/professors', authMiddleware, adminMiddleware, getAllProfessors);
 router.post('/chosen-electives', authMiddleware, adminMiddleware,assignBasedOnChoices );
