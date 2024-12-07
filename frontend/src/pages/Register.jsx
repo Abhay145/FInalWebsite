@@ -28,7 +28,9 @@ export default function Register() {
       return;
     }
 
-    const rollNumber = localStorage.getItem("username");
+    const encryptedUsername = localStorage.getItem("username");
+    const rollNumber = CryptoJS.AES.decrypt(encryptedUsername, secretKey).toString(CryptoJS.enc.Utf8);
+console.log(rollNumber)
     if (!rollNumber) {
       alert("Roll number missing in local storage.");
       navigate("/otpverify");
@@ -50,7 +52,7 @@ export default function Register() {
 
     try {
       const response = await axios.post(
-        "https://openelectivenitkkr.vercel.app/api/student/register",
+        "http://localhost:5000/api/student/register",
         { rollNumber }
       );
       setFormData((prev) => ({
@@ -98,7 +100,7 @@ export default function Register() {
     }
 
     try {
-      await axios.post("https://openelectivenitkkr.vercel.app/api/student/register", {
+      await axios.post("http://localhost:5000/api/student/register", {
         rollNumber: formData.rollNumber,
         password: formData.password,
       });
