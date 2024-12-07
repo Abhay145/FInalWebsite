@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import CryptoJS from "crypto-js";
 export default function OtpVerification() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -63,9 +63,11 @@ export default function OtpVerification() {
             alert("Email verified successfully!");
             const username = email.split("@")[0]; // Extract username from email
 
+            const encryptedUsername = CryptoJS.AES.encrypt(username, secretKey).toString();
+            localStorage.setItem("username", encryptedUsername);
+
             // Save verification status and username in localStorage
             localStorage.setItem("isVerified", "true");
-            localStorage.setItem("username", username);
 
             // Navigate to the registration page with the email as state
             navigate("/Register", { state: { email } });
