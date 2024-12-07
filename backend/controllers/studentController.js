@@ -1,31 +1,37 @@
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Student = require('../models/Student.js');
-const Subject = require('../models/Subject.js');  
+const Subject = require('../models/Subject.js');
 
-// Register student with hashed password
+// Register student with hashed password (using async/await)
 exports.registerStudent = async (req, res) => {
   try {
     const { rollNumber, password } = req.body;
-
-    // Find student by roll number
     const student = await Student.findOne({ rollNumber });
+
     console.log('Searching for rollNumber:', rollNumber, 'of type:', typeof rollNumber);
 
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
 
-    // If password is provided, hash and update it
     if (password) {
-      student.password = await bcryptjs.hash(password, 12);
-      await student.save();
-      return res.status(200).json({ message: 'Password updated successfully' });
-    }
+      // Hash the password using async/await instead of callbacks
+     
+      student.password = password;
 
-    // Return student details (without password) for pre-filling
-    const { name, email, branch, sem } = student; // Include `sem`
-    res.status(200).json({ name, email, branch, sem });
+      try {
+        await student.save(); // Save the updated student document
+        return res.status(200).json({ message: 'Password updated successfully' });
+      } catch (saveErr) {
+        console.error('Error saving student:', saveErr);
+        return res.status(500).json({ message: 'Error saving student' });
+      }
+    } else {
+      // Return student details (without password) for pre-filling
+      const { name, email, branch, sem } = student;
+      res.status(200).json({ name, email, branch, sem });
+    }
   } catch (error) {
     console.error('Error handling student registration:', error);
     res.status(500).json({ message: 'Something went wrong' });
@@ -33,38 +39,32 @@ exports.registerStudent = async (req, res) => {
 };
 
 
-
-// Login and generate JWT token
-
-
 exports.loginStudent = async (req, res) => {
   try {
-    // Ensure the email is lowercase to avoid case sensitivity issues
     const email = req.body.email.toLowerCase();
     const { password } = req.body;
-    console.log(password);
 
     console.log("Login attempt for email:", email);
 
     const student = await Student.findOne({ email });
-   
+
     if (!student) {
       console.log("Student not found with email:", email);
       return res.status(404).json({ message: 'Student not found' });
     }
 
-    // Log hashed password for debugging
-    console.log("Stored hashed password:", student.password);
+    console.log("Stored  password:", student.password);
 
-    // Compare the entered password with the hashed password
-    const isPasswordCorrect = bcryptjs.compare(password, student.password);
+    const isPasswordCorrect = await bcryptjs.compare(password, student.password);
     console.log("Password comparison result:", isPasswordCorrect);
+
+    
+    
 
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    
     const token = jwt.sign({ id: student._id, role: 'student' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({ token });
@@ -73,6 +73,45 @@ exports.loginStudent = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
+
+
+
+// exports.loginStudent = async (req, res) => {
+//   try {
+//     // Ensure the email is lowercase to avoid case sensitivity issues
+//     const email = req.body.email.toLowerCase();
+//     const { password } = req.body;
+//     console.log(password);
+
+//     console.log("Login attempt for email:", email);
+
+//     const student = await Student.findOne({ email });
+   
+//     if (!student) {
+//       console.log("Student not found with email:", email);
+//       return res.status(404).json({ message: 'Student not found' });
+//     }
+
+//     // Log hashed password for debugging
+//     console.log("Stored hashed password:", student.password);
+    
+//     // Compare the entered password with the hashed password
+//     const isPasswordCorrect = await bcryptjs.compare(password, student.password);
+//     console.log("Password comparison result:", isPasswordCorrect);
+
+//     if (!isPasswordCorrect) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
+
+    
+//     const token = jwt.sign({ id: student._id, role: 'student' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+//     res.status(200).json({ token });
+//   } catch (error) {
+//     console.error("Error during login:", error);
+//     res.status(500).json({ message: 'Something went wrong' });
+//   }
+// };
 
 
 exports.getStudentProfile = async (req, res) => {
