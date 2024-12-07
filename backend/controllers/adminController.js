@@ -23,14 +23,15 @@ exports.registerAdmin = async (req, res) => {
     }
 
     // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
+    //const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new admin
     const newAdmin = new Admin({
       name,
       email: email.toLowerCase(), // Lowercase to avoid case-sensitivity issues
-      password: hashedPassword,
+      password: password,
     });
+
 
     await newAdmin.save();
 
@@ -44,26 +45,35 @@ exports.registerAdmin = async (req, res) => {
 
 exports.loginAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
 
-    // Find the admin by email
+    const { email, password } = req.body;
+    console.log("password:"+password);
+    if(!password){
+      return res.status(400).json({ message: 'password missing' });
+    }
+    if(!email){
+      return res.status(400).json({ message: 'email missing' });
+    }
+
     const admin = await Admin.findOne({ email: email.toLowerCase() }); // Make email lowercase to match registration
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' });
     }
-
-    // Compare the password with the stored hash
-    const isPasswordCorrect =  bcrypt.compare(password, admin.password);
+    console.log(admin);
+    const isPasswordCorrect = await admin.comparePassword(password);
+    console.log(isPasswordCorrect);
+    console.log( bcrypt.compareSync(password, admin.password));
+   
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Generate a token
+   
     const token = jwt.sign({ id: admin._id, role: 'admin' }, process.env.JWT_SECRET);
 
     res.status(200).json({ token });
   } catch (error) {
-    console.error('Error during admin login:', error); // Log error for debugging
+    console.error('Error during admin login:', error); 
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
