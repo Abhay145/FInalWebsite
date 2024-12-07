@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-
+import CryptoJS from "crypto-js";
 export default function Register() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,6 +29,10 @@ export default function Register() {
     }
 
     const encryptedUsername = localStorage.getItem("username");
+
+    const secretKey =  import.meta.env.VITE_CRYPTO_SECRET;
+
+
     const rollNumber = CryptoJS.AES.decrypt(encryptedUsername, secretKey).toString(CryptoJS.enc.Utf8);
 console.log(rollNumber)
     if (!rollNumber) {
