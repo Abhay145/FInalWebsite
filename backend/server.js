@@ -90,6 +90,21 @@ app.post('/send-otp', async (req, res) => {
     }
 });
 
+app.post('/verify-otp', (req, res) => {
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+      return res.status(400).json({ success: false, message: "Email and OTP are required" });
+  }
+
+  // Verify OTP
+  if (otpStore[email] && otpStore[email] === parseInt(otp, 10)) {
+      delete otpStore[email]; // Remove OTP after verification
+      return res.status(200).json({ success: true, message: "OTP verified successfully!" });
+  } else {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+  }
+});
 
 
 
