@@ -23,7 +23,7 @@ export default function OtpVerification() {
 
     try {
       setError("");
-      const response = await fetch("http://localhost:5000/send-otp", {
+      const response = await fetch("https://openelectivenitkkr.vercel.app/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -51,7 +51,7 @@ export default function OtpVerification() {
 
     try {
         setError(""); // Clear any previous errors
-        const response = await fetch("http://localhost:5000/verify-otp", {
+        const response = await fetch("https://openelectivenitkkr.vercel.app/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp }),
@@ -63,7 +63,7 @@ export default function OtpVerification() {
             alert("Email verified successfully!");
             const username = email.split("@")[0]; // Extract username from email
             console.log(username);
-            const secretKey =  import.meta.env.VITE_CRYPTO_SECRET;
+            const secretKey =  import.meta.env.VITE_CRYPTO_hello;
 
             // console.log('CRYPTO_SECRET:', process.env.REACT_APP_CRYPTO_SECRET);
 
