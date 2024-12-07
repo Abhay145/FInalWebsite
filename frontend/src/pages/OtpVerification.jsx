@@ -6,9 +6,8 @@ export default function OtpVerification() {
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
-
+const [isDisabled, setIsDisabled] = useState(false);
   const sendOTP = async () => {
     if (!email) {
       setError("Please enter a valid email address.");
@@ -107,7 +106,11 @@ export default function OtpVerification() {
       />
       {!isOtpSent && (
         <button
-          onClick={sendOTP}
+        onClick={() => {
+          sendOTP();
+          setIsDisabled(true); // Disable the button
+        }}
+        disabled={isDisabled}
           style={{
             width: "100%",
             padding: "10px",
