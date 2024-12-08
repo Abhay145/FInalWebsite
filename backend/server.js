@@ -71,13 +71,13 @@ app.post('/send-otp', async (req, res) => {
             port: 587,
             secure: false, // Use TLS
             auth: {
-                user: 'medichain824@gmail.com',
-                pass: 'arhx lmmh hphs uqti',
+                user: 'academic_portal@nitkkr.ac.in',
+                pass: process.env.EMAIL_PASSWORD,
             },
         });
 
         await transporter.sendMail({
-            from: '"NIT KKR" <medichain824@gmail.com>',
+            from: '"NIT KKR" <academic_portal@nitkkr.ac.in>',
             to: email,
             subject: "OTP Received",
             text: `Your OTP is: ${otp}. Enter this OTP to verify your email address.`,
