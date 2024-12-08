@@ -28,6 +28,13 @@ function HomePage() {
       >
         Register Now
       </button>
+      <br/>
+      <button
+        onClick={() => navigate("/login")}
+        className="px-6 py-3 bg-green-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:bg-green-600 transition duration-300 ease-in-out"
+      >
+        Login
+      </button>
 
       {/* Footer */}
       <footer className="mt-10 text-sm text-center text-white/70">
