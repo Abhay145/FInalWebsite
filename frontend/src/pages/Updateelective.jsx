@@ -68,7 +68,15 @@ const UpdateElective = () => {
       );
 
       setError('');
-      setSuccess('Electives updated successfully!');
+      setSuccess(
+        <>
+          <span>Electives updated successfully!</span>
+          <br />
+          <span style={{ color: 'red', }}>
+            Note: Sometimes, due to internet issues, the choices might get cleared. Please verify the status of your choices on the dashboard and refill them if needed.
+          </span>
+        </>
+      );
     } catch (error) {
       setError(error.response?.data?.message || 'Error updating electives');
       setSuccess('');
