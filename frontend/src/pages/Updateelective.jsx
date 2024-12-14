@@ -73,7 +73,7 @@ const UpdateElective = () => {
           <span>Electives updated successfully!</span>
           <br />
           <span style={{ color: 'red', }}>
-            Note: Sometimes, due to internet issues, the choices might get cleared. Please verify the status of your choices on the dashboard and refill them if needed.
+            Note: Sometimes, due to internet issues, the choices might get cleared after updating. Please verify the status of your choices on the dashboard and refill them if needed.
           </span>
         </>
       );
