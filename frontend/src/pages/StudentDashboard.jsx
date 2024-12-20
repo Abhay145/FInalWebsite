@@ -107,7 +107,7 @@ function StudentDashboard() {
 
             {/* Button for Electives */}
             <div className="text-center">
-              {student.subjects== null && student.choices && student.choices.length === 0 && (
+{/*               {student.subjects== null && student.choices && student.choices.length === 0 && (
                 <button
                   onClick={() => navigate("/openelective")}
                   className="mt-6 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
@@ -123,7 +123,7 @@ function StudentDashboard() {
                 >
                   Update Chosen Electives
                 </button>
-              )}
+              )} */}
            {student.sem === 6 && (
   <button
     onClick={() => window.open("/sem6-syllabus.pdf", "_blank")}
