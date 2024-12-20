@@ -104,7 +104,7 @@ const UpdateElective = () => {
         <div className="w-[40vw] mx-auto space-y-6">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
-            <form onSubmit={handleSubmit}>
+{/*             <form onSubmit={handleSubmit}>
               {options.map((option, index) => (
                 <div key={`field${index}`} className="form-group mb-4">
                   <label htmlFor={`field${index}`} className="block font-medium text-gray-700">
@@ -143,7 +143,7 @@ const UpdateElective = () => {
               >
                 Submit
               </button>
-            </form>
+            </form> */}
             {/* Back to dashboard button */}
             <div className="text-center mt-6">
               <a
