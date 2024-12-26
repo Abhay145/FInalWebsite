@@ -99,7 +99,7 @@ function AdminDashboard() {
         {/* Buttons Section */}
         <div className="flex flex-col gap-4">
           {/* Assign Based on Choices */}
-          <button
+{/*           <button
             onClick={handleAssignBasedOnChoices}
             disabled={loading}
             className={`w-full px-6 py-3 text-lg rounded-lg font-semibold shadow-md transition-all ${
@@ -109,10 +109,10 @@ function AdminDashboard() {
             }`}
           >
             {loading ? "Assigning Based on Choices..." : "Assign 6th Semester Electives"}
-          </button>
+          </button> */}
 
           {/* Assign Fallback Electives */}
-         <button
+{/*          <button
             onClick={handleAssignFallbackElectives}
             disabled={loading}
             className={`w-full px-6 py-3 text-lg rounded-lg font-semibold shadow-md transition-all ${
@@ -123,7 +123,7 @@ function AdminDashboard() {
           >
             {loading ? "Assigning Fallback Electives..." : "Assign 8th Semester Electives"}
           </button>    
-
+ */}
           {/* Clear All Subjects
           { <button
             onClick={handleClearAllSubjects}
