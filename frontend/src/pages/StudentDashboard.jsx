@@ -89,7 +89,7 @@ function StudentDashboard() {
 
 
             {/* Subjects */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+{/*             <div className="bg-white p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Electives Allotted</h2>
               {Subject ? (
                 <div className="space-y-3">
@@ -104,7 +104,7 @@ function StudentDashboard() {
                 </div>
               )}
             </div>
-
+ */}
             {/* Button for Electives */}
             <div className="text-center">
 {/*               {student.subjects== null && student.choices && student.choices.length === 0 && (
