@@ -11,6 +11,7 @@ import OtpVerification from "./pages/OtpVerification.jsx";
 import Studenttable from "./pages/Studenttable.jsx";
 import Subjecticon from './pages/Subjecticon.jsx';
 import Updateelective from './pages/Updateelective.jsx'
+import OpenElective2 from './pages/OpenElective2.jsx'
 
 function App() {
   const [activeSubject, setActiveSubject] = useState(null); // Track the selected subject
@@ -26,6 +27,7 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/" element={<Landing />} />
         <Route path="/OpenElective" element={<OpenElective />} />
+        <Route path="/OpenElective2" element={<OpenElective2 />} />
         <Route path="/OTPVerify" element={<OtpVerification />} />
         <Route path="/Subjecticon" element={<Subjecticon />} />
         <Route path="/Updateelective" element={<Updateelective />} />
