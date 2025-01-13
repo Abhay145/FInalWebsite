@@ -209,6 +209,45 @@ exports.ChooseElective = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
+exports.ChooseElective2 = async (req, res) => {
+  try {
+    const { selectedElectives } = req.body;
+
+    // Validate selected electives by checking if all IDs exist in the Subject collection
+    const validSubjects = await Subject.find({ _id: { $in: selectedElectives } });
+    if (validSubjects.length !== selectedElectives.length) {
+      return res.status(400).json({ message: 'One or more electives are invalid' });
+    }
+
+    // Get the current timestamp
+    const currentTime = new Date().toISOString();
+
+    // Update the student's choices field with the validated electives and set the current time
+    const updatedStudent = await Student.findByIdAndUpdate(
+      req.userId,
+      {
+        $set: {
+          choices2: selectedElectives, // Update choices
+          Time: currentTime,          // Update time field
+        },
+      },
+      { new: true }
+    ).populate('choices'); // Populate to return full elective details in the response
+
+    if (!updatedStudent) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    res.status(200).json({
+      message: 'Electives chosen successfully',
+      choices: updatedStudent.choices,
+      time: updatedStudent.time, // Include time in the response
+    });
+  } catch (error) {
+    console.error('Error choosing electives:', error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
 
 exports.getStudentDetails = async (req, res) => {
   try {
