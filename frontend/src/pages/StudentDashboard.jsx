@@ -150,14 +150,7 @@ function StudentDashboard() {
   )}
 </div>
 
-              {student.subjects== null && student.choices && student.choices.length>0 && student.choices2.length > 0 && (
-                <button
-                  onClick={() => navigate("/Updateelective")}
-                  className="mt-6 px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition"
-                >
-                  Update Chosen Electives
-                </button>
-              )}
+            
            {student.sem === 6 && (
   <button
     onClick={() => window.open("/sem6-syllabus.pdf", "_blank")}
