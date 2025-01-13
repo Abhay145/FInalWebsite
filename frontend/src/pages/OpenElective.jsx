@@ -17,9 +17,11 @@ const UniqueDropdownForm = () => {
         const response = await axios.get('https://openelectivenitkkr.vercel.app/api/eligible-subjects', {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        // Set eligible electives
-        setOptions(response.data.electives);
+        const filteredElectives = response.data.electives.filter(
+          (elective) => elective.Group === 1
+        );
+  
+        setOptions(filteredElectives);
       } catch (error) {
         setError('Failed to load electives');
       }
@@ -97,7 +99,7 @@ const UniqueDropdownForm = () => {
         <div className="w-[40vw] mx-auto space-y-6">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
-{/*             <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               {options.map((option, index) => (
                 <div key={`field${index}`} className="form-group mb-4">
                   <label htmlFor={`field${index}`} className="block font-medium text-gray-700">
@@ -133,7 +135,7 @@ const UniqueDropdownForm = () => {
               <button type="submit" className="w-full py-3 mt-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
                 Submit
               </button>
-            </form> */}
+            </form>
             {/* Back to Dashboard Button */}
             <button
               className="w-full py-3 mt-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
