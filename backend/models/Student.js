@@ -72,6 +72,10 @@ const studentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Subject' 
   }],
+  choices2: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Subject' 
+  }],
   Time: {
     type: Date,
     default: Date.now, 
