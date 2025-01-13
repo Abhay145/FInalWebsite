@@ -57,28 +57,37 @@ function StudentDashboard() {
 
         {!loading && !error && student && (
           <div className="space-y-6 w-[40vw] mx-auto">
-            {/* Student Details */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Student Information</h2>
-              <ul className="space-y-3">
-                <li className="flex justify-between">
-                  <span className="font-medium">Roll Number:</span>
-                  <span>{student.rollNumber}</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-medium">Name:</span>
-                  <span>{student.name}</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-medium">Email:</span>
-                  <span>{student.email}</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-medium">Branch:</span>
-                  <span>{student.branch}</span>
-                </li>
-              </ul>
-            </div>
+         
+{/* Student Details */}
+<div className="bg-white p-6 rounded-lg shadow-lg">
+  <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Student Information</h2>
+  <ul className="space-y-3">
+    <li className="flex justify-between">
+      <span className="font-medium">Roll Number:</span>
+      <span>{student.rollNumber}</span>
+    </li>
+    <li className="flex justify-between">
+      <span className="font-medium">Name:</span>
+      <span>{student.name}</span>
+    </li>
+    <li className="flex justify-between">
+      <span className="font-medium">Email:</span>
+      <span>{student.email}</span>
+    </li>
+    <li className="flex justify-between">
+      <span className="font-medium">Branch:</span>
+      <span>{student.branch}</span>
+    </li>
+    <li className="flex justify-between">
+      <span className="font-medium">Choices Status:</span>
+      <span>
+        {student.choices && student.choices.length > 0 ? "Filled" : "Not Filled"}
+      </span>
+    </li>
+  </ul>
+</div>
+
+
 
             {/* Subjects */}
             <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -98,17 +107,44 @@ function StudentDashboard() {
             </div>
 
             {/* Button for Electives */}
-            <div className="text-center">
-              {student.subjects== null && student.choices && student.choices.length === 0 && (
-                <button
-                  onClick={() => navigate("/openelective")}
-                  className="mt-6 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
-                >
-                  Select Open Electives
-                </button>
-              )}
+           { <div className="text-center">
+            <div className="text-center space-y-4">
+  {/* Group 1 Electives */}
+  {student.choices1 && student.choices1.length === 0 ? (
+    <button
+      onClick={() => navigate("/OpenElective")}
+      className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
+    >
+      Select Group 1 Electives
+    </button>
+  ) : (
+    <button
+      onClick={() => navigate("/OpenElective")}
+      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition"
+    >
+      Update Group 1 Electives
+    </button>
+  )}
 
-              {student.subjects== null && student.choices && student.choices.length > 0 && (
+  {/* Group 2 Electives */}
+  {student.choices2 && student.choices2.length === 0 ? (
+    <button
+      onClick={() => navigate("/OpenElective2")}
+      className="px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition"
+    >
+      Select Group 2 Electives
+    </button>
+  ) : (
+    <button
+      onClick={() => navigate("/OpenElective2")}
+      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition"
+    >
+      Update Group 2 Electives
+    </button>
+  )}
+</div>
+
+              {student.subjects== null && student.choices && student.choices.length>0 && student.choices2.length > 0 && (
                 <button
                   onClick={() => navigate("/Updateelective")}
                   className="mt-6 px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition"
@@ -134,7 +170,7 @@ function StudentDashboard() {
   </button>
 )}
 
-            </div>
+            </div>  }
           </div>
         )}
       </div>
