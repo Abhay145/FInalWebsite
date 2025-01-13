@@ -7,6 +7,7 @@ const subjectSchema = new mongoose.Schema({
   branch: { type: String, required: true },
   professor: { type: mongoose.Schema.Types.ObjectId, required: false, ref: 'Professor' },
   sem: { type: Number, required: true },
+  group: { type: Number, required: true },
   seats: { type: Number, required: false },
   default_seats: { type: Number, required: false },
   students: [
