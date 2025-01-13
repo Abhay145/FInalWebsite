@@ -79,9 +79,15 @@ function StudentDashboard() {
       <span>{student.branch}</span>
     </li>
     <li className="flex justify-between">
-      <span className="font-medium">Choices Status:</span>
+      <span className="font-medium">Choices Status Group 1:</span>
       <span>
         {student.choices && student.choices.length > 0 ? "Filled" : "Not Filled"}
+      </span>
+    </li>
+    <li className="flex justify-between">
+      <span className="font-medium">Choices Status Group 2:</span>
+      <span>
+        {student.choices2 && student.choices2.length > 0 ? "Filled" : "Not Filled"}
       </span>
     </li>
   </ul>
