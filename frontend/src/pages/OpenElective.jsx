@@ -13,7 +13,7 @@ const UniqueDropdownForm = () => {
     const fetchElectives = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/eligible-subjects', {
+        const response = await axios.get('https://openelectivenitkkr.vercel.app/api/eligible-subjects', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOptions(response.data.electives);
@@ -51,7 +51,7 @@ const UniqueDropdownForm = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/student/OpenElective',
+        'https://openelectivenitkkr.vercel.app/api/student/OpenElective',
         { selectedElectives },
         { headers: { Authorization: `Bearer ${token}` } }
       );
