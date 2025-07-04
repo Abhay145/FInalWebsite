@@ -21,7 +21,7 @@ function HomePage() {
           NIT Kurukshetra
         </h1>
         <p className="mt-4 text-white/90 text-lg max-w-md leading-relaxed">
-          Empowering minds. Building the future. Join the legacy of excellence in engineering and innovation.
+        Open Elective for 5th and 7th Semester
         </p>
 
         {/* Buttons */}
