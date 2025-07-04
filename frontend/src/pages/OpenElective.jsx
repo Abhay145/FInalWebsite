@@ -7,24 +7,20 @@ const UniqueDropdownForm = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
-  // Fetch eligible electives from the backend
   useEffect(() => {
     const fetchElectives = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://openelectivenitkkr.vercel.app/api/eligible-subjects', {
+        const response = await axios.get('http://localhost:5000/api/eligible-subjects', {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        // Set eligible electives
         setOptions(response.data.electives);
       } catch (error) {
         setError('Failed to load electives');
       }
     };
-
     fetchElectives();
   }, []);
 
@@ -45,113 +41,107 @@ const UniqueDropdownForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Extract selected electives
     const selectedElectives = Object.values(selectedValues).filter((value) => value !== null);
-
-    // Validate that all electives are selected
- if (selectedElectives.length !== options.length - 2) {
-  setError(`Please select ${options.length - 2} electives.`);
-  setSuccess('');
-  return;
-}
-
+    if (selectedElectives.length !== options.length - 2) {
+      setError(`Please select ${options.length - 2} electives.`);
+      setSuccess('');
+      return;
+    }
 
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://openelectivenitkkr.vercel.app/api/student/OpenElective',
+        'http://localhost:5000/api/student/OpenElective',
         { selectedElectives },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
       setError('');
       setSuccess('Electives chosen successfully!');
       setSelectedValues({});
-      console.log(response.data.message);
     } catch (error) {
       setError(error.response?.data?.message || 'Error choosing electives');
       setSuccess('');
-      console.error('Error choosing electives:', error);
     }
   };
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-red-100 via-white to-red-200">
-    {/* Header */}
-    <header className="bg-red-600 text-white py-4 shadow-lg flex items-center justify-between px-8">
-      <div
-        className="flex items-center space-x-4 cursor-pointer"
-        onClick={() => navigate('/student/dashboard')}
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
-          alt="NIT Kurukshetra Logo"
-          className="h-12 w-12 rounded-full"
-        />
-        <h1 className="text-2xl font-bold tracking-wide">
-          Elective Selection Portal
-        </h1>
-      </div>
-    </header>
+    <div className="min-h-screen bg-gradient-to-br from-red-100 via-white to-blue-100 flex flex-col">
+      {/* Header */}
+      <header className="bg-white shadow-md p-4 flex justify-between items-center border-b border-gray-200">
+        <div
+          className="flex items-center gap-4 cursor-pointer"
+          onClick={() => navigate('/student/dashboard')}
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
+            alt="NIT Kurukshetra Logo"
+            className="h-12 w-12"
+          />
+          <h1 className="text-2xl font-bold text-gray-800">Elective Selection Portal</h1>
+        </div>
+      </header>
 
-    <main className="flex justify-center items-center py-16 px-4">
-      <div className="w-full max-w-2xl backdrop-blur-md bg-white/60 p-8 rounded-2xl shadow-xl border border-red-200">
-        <h2 className="text-2xl font-semibold text-red-700 mb-6 text-center border-b pb-2">
-          Choose Your Electives
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {options.slice(0, options.length - 2).map((option, index) => (
-            <div key={`field${index}`}>
-              <label
-                htmlFor={`field${index}`}
-                className="block text-gray-800 font-medium mb-1"
-              >
-                Elective {index + 1}
-              </label>
-              <select
-                id={`field${index}`}
-                value={selectedValues[`field${index}`] || ''}
-                onChange={(e) => handleSelectChange(`field${index}`, e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-500 transition"
-              >
-                <option value="">-- Select an option --</option>
-                {getFilteredOptions(`field${index}`).map((filteredOption) => (
-                  <option
-                    key={filteredOption._id}
-                    value={filteredOption._id}
-                    disabled={filteredOption.isSelected}
-                    className="text-gray-700"
-                  >
-                    {filteredOption.name} ({filteredOption.code}) - {filteredOption.branch}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
+      <main className="flex-grow flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-2xl bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-300 p-8 space-y-6">
+          <h2 className="text-2xl font-bold text-center text-gray-700 border-b pb-4">
+            Select Your Electives
+          </h2>
 
-          {error && <p className="text-red-600 text-center font-medium">{error}</p>}
-          {success && <p className="text-green-600 text-center font-medium">{success}</p>}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {options.slice(0, options.length - 2).map((option, index) => (
+              <div key={`field${index}`} className="space-y-2">
+                <label
+                  htmlFor={`field${index}`}
+                  className="block text-lg font-medium text-gray-600"
+                >
+                  Elective {index + 1}
+                </label>
+                <select
+                  id={`field${index}`}
+                  value={selectedValues[`field${index}`] || ''}
+                  onChange={(e) => handleSelectChange(`field${index}`, e.target.value)}
+                  className="w-full px-4 py-3 text-gray-800 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 transition-all"
+                >
+                  <option value="">Select an option</option>
+                  {getFilteredOptions(`field${index}`).map((filteredOption) => (
+                    <option
+                      key={filteredOption._id}
+                      value={filteredOption._id}
+                      disabled={filteredOption.isSelected}
+                      style={{
+                        color: filteredOption.isSelected ? 'gray' : 'black',
+                        fontWeight: filteredOption.isSelected ? 'normal' : 'bold',
+                      }}
+                    >
+                      {filteredOption.name} ({filteredOption.code}) - {filteredOption.branch}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
 
-          <button
-            type="submit"
-            className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition"
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            className="w-full py-3 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition"
-            onClick={() => navigate('/student/dashboard')}
-          >
-            Back to Dashboard
-          </button>
-        </form>
-      </div>
-    </main>
-  </div>
-);
+            {error && <p className="text-red-600 font-semibold text-center">{error}</p>}
+            {success && <p className="text-green-600 font-semibold text-center">{success}</p>}
 
+            <button
+              type="submit"
+              className="w-full py-3 bg-red-500 hover:bg-red-600 text-white text-lg font-semibold rounded-xl shadow-md transition-all"
+            >
+              Submit
+            </button>
+
+            <button
+              type="button"
+              onClick={() => navigate('/student/dashboard')}
+              className="w-full py-3 mt-3 bg-gray-400 hover:bg-gray-500 text-white text-lg font-semibold rounded-xl shadow-md transition-all"
+            >
+              Back to Dashboard
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default UniqueDropdownForm;
