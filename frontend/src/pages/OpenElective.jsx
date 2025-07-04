@@ -77,78 +77,81 @@ const UniqueDropdownForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-red-500 text-white py-4 shadow-md flex items-center justify-between px-6">
-        <div
-          className="flex items-center space-x-4 cursor-pointer"
-          onClick={() => navigate('/student/dashboard')}
-        >
-          {/* Logo */}
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
-            alt="NIT Kurukshetra Logo"
-            className="h-12 w-12"
-          />
-          <h1 className="text-xl font-semibold">NIT Kurukshetra - Elective Selection</h1>
-        </div>
-      </header>
-
-      <div className="container mx-auto py-8 px-4">
-        <div className="w-[40vw] mx-auto space-y-6">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
-            <form onSubmit={handleSubmit}>
-                 {/* Change */}
-              {options.slice(0, options.length - 2).map((option, index) => (
-                <div key={`field${index}`} className="form-group mb-4">
-                  <label htmlFor={`field${index}`} className="block font-medium text-gray-700">
-                    Elective {index + 1}:
-                  </label>
-                  <select
-                    id={`field${index}`}
-                    value={selectedValues[`field${index}`] || ''}
-                    onChange={(e) => handleSelectChange(`field${index}`, e.target.value)}
-                    className="select-dropdown mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                  >
-                    <option value="">Select an option</option>
-                    
-                    {getFilteredOptions(`field${index}`).map((filteredOption) => (
-                      <option
-                        key={filteredOption._id}
-                        value={filteredOption._id}
-                        style={{
-                          color: filteredOption.isSelected ? 'gray' : 'black',
-                          fontWeight: filteredOption.isSelected ? 'normal' : 'bold',
-                        }}
-                        disabled={filteredOption.isSelected} // Optional: Disable already selected options
-                      >
-                        {filteredOption.name} ({filteredOption.code}) - {filteredOption.branch}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-
-              {error && <p className="text-red-500 text-center">{error}</p>}
-              {success && <p className="text-green-500 text-center">{success}</p>}
-
-              <button type="submit" className="w-full py-3 mt-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-                Submit
-              </button>
-            </form>
-            {/* Back to Dashboard Button */}
-            <button
-              className="w-full py-3 mt-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
-              onClick={() => navigate('/student/dashboard')}
-            >
-              Back to Dashboard
-            </button>
-          </div>
-        </div>
+  <div className="min-h-screen bg-gradient-to-br from-red-100 via-white to-red-200">
+    {/* Header */}
+    <header className="bg-red-600 text-white py-4 shadow-lg flex items-center justify-between px-8">
+      <div
+        className="flex items-center space-x-4 cursor-pointer"
+        onClick={() => navigate('/student/dashboard')}
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
+          alt="NIT Kurukshetra Logo"
+          className="h-12 w-12 rounded-full"
+        />
+        <h1 className="text-2xl font-bold tracking-wide">
+          Elective Selection Portal
+        </h1>
       </div>
-    </div>
-  );
+    </header>
+
+    <main className="flex justify-center items-center py-16 px-4">
+      <div className="w-full max-w-2xl backdrop-blur-md bg-white/60 p-8 rounded-2xl shadow-xl border border-red-200">
+        <h2 className="text-2xl font-semibold text-red-700 mb-6 text-center border-b pb-2">
+          Choose Your Electives
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {options.slice(0, options.length - 2).map((option, index) => (
+            <div key={`field${index}`}>
+              <label
+                htmlFor={`field${index}`}
+                className="block text-gray-800 font-medium mb-1"
+              >
+                Elective {index + 1}
+              </label>
+              <select
+                id={`field${index}`}
+                value={selectedValues[`field${index}`] || ''}
+                onChange={(e) => handleSelectChange(`field${index}`, e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+              >
+                <option value="">-- Select an option --</option>
+                {getFilteredOptions(`field${index}`).map((filteredOption) => (
+                  <option
+                    key={filteredOption._id}
+                    value={filteredOption._id}
+                    disabled={filteredOption.isSelected}
+                    className="text-gray-700"
+                  >
+                    {filteredOption.name} ({filteredOption.code}) - {filteredOption.branch}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+
+          {error && <p className="text-red-600 text-center font-medium">{error}</p>}
+          {success && <p className="text-green-600 text-center font-medium">{success}</p>}
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            className="w-full py-3 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition"
+            onClick={() => navigate('/student/dashboard')}
+          >
+            Back to Dashboard
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+);
+
 };
 
 export default UniqueDropdownForm;
