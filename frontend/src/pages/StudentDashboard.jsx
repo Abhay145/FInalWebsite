@@ -6,20 +6,28 @@ function StudentDashboard() {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [Subject, setSubject] = useState(null);
+  const [subjects, setSubjects] = useState([]);
+  const [chosenElectives, setChosenElectives] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudentDetails = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("https://openelectivenitkkr.vercel.app/api/student/details", {
+
+        const studentRes = await axios.get("https://openelectivenitkkr.vercel.app/api/student/details", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log()
-        setStudent(response.data.student);
-        // If student has subjects, fetch their details
-      setSubject(response.data.student.subjects)
+
+        setStudent(studentRes.data.student);
+        setSubjects(studentRes.data.student.subjects || []);
+
+        const selectedResponse = await axios.get("https://openelectivenitkkr.vercel.app/api/student/selected-electives", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setChosenElectives(selectedResponse.data.selectedElectives || []);
       } catch (err) {
         setError("Failed to load student details.");
       } finally {
@@ -31,148 +39,122 @@ function StudentDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-red-500 text-white py-4 shadow-md flex items-center justify-between px-6">
-        <div className="flex items-center space-x-4">
-          {/* Logo */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 font-sans">
+      <header className="bg-gradient-to-r from-red-500 to-red-700 text-white py-6 shadow-lg flex items-center justify-between px-8">
+        <div className="flex items-center space-x-5">
           <img
             src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
             alt="NIT Kurukshetra Logo"
-            className="h-12 w-12"
+            className="h-14 w-14 drop-shadow-md"
           />
-          <h1 className="text-xl font-semibold">NIT Kurukshetra - Student Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-wide">NIT Kurukshetra - Student Dashboard</h1>
         </div>
       </header>
 
-      <div className="container mx-auto py-8 px-4">
-        {loading && (
-          <div className="text-center">
-            <div className="loader inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-700 mt-4">Loading student details...</p>
+      <main className="container mx-auto py-10 px-6">
+        {loading ? (
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600 mt-3">Loading student details...</p>
           </div>
-        )}
+        ) : error ? (
+          <p className="text-red-600 text-center text-lg font-medium">{error}</p>
+        ) : (
+          <div className="space-y-8 max-w-3xl mx-auto">
+            <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Student Information</h2>
+              <ul className="grid grid-cols-2 gap-y-4 gap-x-6 text-gray-700">
+                <li><span className="font-semibold">Roll Number:</span> {student.rollNumber}</li>
+                <li><span className="font-semibold">Name:</span> {student.name}</li>
+                <li><span className="font-semibold">Email:</span> {student.email}</li>
+                <li><span className="font-semibold">Branch:</span> {student.branch}</li>
+              </ul>
+            </section>
 
-        {error && <p className="text-red-500 text-center">{error}</p>}
-
-        {!loading && !error && student && (
-          <div className="space-y-6 w-[40vw] mx-auto">
-         
-{/* Student Details */}
-<div className="bg-white p-6 rounded-lg shadow-lg">
-  <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Student Information</h2>
-  <ul className="space-y-3">
-    <li className="flex justify-between">
-      <span className="font-medium">Roll Number:</span>
-      <span>{student.rollNumber}</span>
-    </li>
-    <li className="flex justify-between">
-      <span className="font-medium">Name:</span>
-      <span>{student.name}</span>
-    </li>
-    <li className="flex justify-between">
-      <span className="font-medium">Email:</span>
-      <span>{student.email}</span>
-    </li>
-    <li className="flex justify-between">
-      <span className="font-medium">Branch:</span>
-      <span>{student.branch}</span>
-    </li>
-    <li className="flex justify-between">
-      <span className="font-medium">Choices Status Group 1:</span>
-      <span>
-        {student.choices && student.choices.length > 0 ? "Filled" : "Not Filled"}
-      </span>
-    </li>
-    <li className="flex justify-between">
-      <span className="font-medium">Choices Status Group 2:</span>
-      <span>
-        {student.choices2 && student.choices2.length > 0 ? "Filled" : "Not Filled"}
-      </span>
-    </li>
-  </ul>
-</div>
-
-
-
-            {/* Subjects */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Electives Allotted</h2>
-              {Subject ? (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between bg-gray-50 p-3 rounded-md shadow">
-                    <span className="font-medium text-gray-700">{Subject.name}</span>
-                    <span className="text-sm text-gray-500">(Code: {Subject.code})</span>
-                  </div>
-                </div>
+            <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Electives Allotted</h2>
+              {subjects.length > 0 ? (
+                <ul className="space-y-3">
+                  {subjects.map((subj, index) => (
+                    <li key={index} className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border">
+                      <span className="font-medium text-gray-800">{subj.name}</span>
+                      <span className="text-sm text-gray-500">(Code: {subj.code})</span>
+                    </li>
+                  ))}
+                </ul>
               ) : (
-                <div className="text-center">
-                  <p className="text-gray-600">No subjects allotted.</p>
-                </div>
+                <p className="text-gray-600">No subjects allotted.</p>
               )}
+            </section>
+
+            <div className="flex flex-wrap gap-4 justify-center">
+              {student.subjects == null && student.choices?.length === 0 && (
+                <button
+                  onClick={() => navigate("/openelective")}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition"
+                >
+                  Select Open Electives
+                </button>
+              )}
+
+              {student.subjects == null && chosenElectives.length > 0 && (
+                <>
+                  <button
+                    onClick={() => navigate("/Updateelective")}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg shadow-md transition"
+                  >
+                    Update Chosen Electives
+                  </button>
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg shadow-md transition"
+                  >
+                    View Chosen Electives
+                  </button>
+                </>
+              )}
+
+              <button
+                onClick={() => navigate("/syllabus")}
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition"
+              >
+                Check Syllabus
+              </button>
             </div>
-
-            {/* Button for Electives */}
-           { <div className="text-center">
-            <div className="text-center space-y-4">
-  {/* Group 1 Electives */}
-  {student.choices1 && student.choices1.length === 0 ? (
-    <button
-      onClick={() => navigate("/OpenElective")}
-      className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
-    >
-      Select Group 1 Electives
-    </button>
-  ) : (
-    <button
-      onClick={() => navigate("/OpenElective")}
-      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition"
-    >
-      Update Group 1 Electives
-    </button>
-  )}
-
-  {/* Group 2 Electives */}
-  {student.choices2 && student.choices2.length === 0 ? (
-    <button
-      onClick={() => navigate("/OpenElective2")}
-      className="px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition"
-    >
-      Select Group 2 Electives
-    </button>
-  ) : (
-    <button
-      onClick={() => navigate("/OpenElective2")}
-      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition"
-    >
-      Update Group 2 Electives
-    </button>
-  )}
-</div>
-
-            
-           {student.sem === 6 && (
-  <button
-    onClick={() => window.open("/sem6-syllabus.pdf", "_blank")}
-    className="mt-6 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition"
-  >
-    Check Semester 6 Syllabus
-  </button>
-)}
-
-{student.sem === 8 && (
-  <button
-    onClick={() => window.open("/sem8-syllabus.pdf", "_blank")}
-    className="mt-6 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition"
-  >
-    Check Semester 8 Syllabus
-  </button>
-)}
-
-            </div>  }
           </div>
         )}
-      </div>
+      </main>
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-lg p-6 animate-fadeIn">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-800">Your Chosen Electives</h3>
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-gray-600 hover:text-red-500 text-2xl font-bold"
+              >
+                &times;
+              </button>
+            </div>
+            {chosenElectives.length > 0 ? (
+              <ul className="space-y-3">
+                {chosenElectives.map((choice, index) => (
+                  <li
+                    key={index}
+                    className="flex justify-between items-center p-4 bg-gray-100 rounded-md border"
+                  >
+                    <span className="font-medium text-gray-700">{choice.name}</span>
+                    <span className="text-sm text-gray-500">(Code: {choice.code})</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-600">No electives selected.</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
