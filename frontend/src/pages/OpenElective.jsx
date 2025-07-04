@@ -17,9 +17,7 @@ const UniqueDropdownForm = () => {
         const response = await axios.get('https://openelectivenitkkr.vercel.app/api/eligible-subjects', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const filteredElectives = response.data.electives.filter(
-          (elective) => elective.Group === 1
-        );
+     
   
         setOptions(filteredElectives);
       } catch (error) {
@@ -52,11 +50,11 @@ const UniqueDropdownForm = () => {
     const selectedElectives = Object.values(selectedValues).filter((value) => value !== null);
 
     // Validate that all electives are selected
-    if (selectedElectives.length !== options.length) {
-      setError('Please select all available electives.');
-      setSuccess('');
-      return;
-    }
+    if (selectedElectives.length !== options.length - 2) {
+  setError(`Please select ${options.length - 2} electives.`);
+  setSuccess('');
+  return;
+}
 
     try {
       const token = localStorage.getItem('token');
@@ -100,7 +98,7 @@ const UniqueDropdownForm = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
             <form onSubmit={handleSubmit}>
-              {options.map((option, index) => (
+              {options.slice(0, options.length - 2).map((option, index) => (
                 <div key={`field${index}`} className="form-group mb-4">
                   <label htmlFor={`field${index}`} className="block font-medium text-gray-700">
                     Elective {index + 1}:
