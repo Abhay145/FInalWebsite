@@ -5,9 +5,6 @@ const Student = require('../models/Student.js');
 const Professor = require('../models/Professor.js');
 const Subject = require('../models/Subject');
 const mongoose = require('mongoose');
-const fs = require('fs')
-const axios = require('axios');  
-const { chunk } = require("lodash");
 
 
 // Make sure you have bcryptjs installed
@@ -39,6 +36,34 @@ exports.registerAdmin = async (req, res) => {
   } catch (error) {
     console.error('Error during admin registration:', error); // Log the error for debugging
     res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
+
+exports.checkAdminRole = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Missing or invalid Authorization header' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decoded.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied. Admins only.' });
+    }
+
+    return res.status(200).json({
+      message: 'Access granted. User is an admin.',
+      role: decoded.role,
+      userId: decoded.id,
+    });
+
+  } catch (error) {
+    console.error('Role verification failed:', error.message);
+    return res.status(401).json({ message: 'Invalid or expired token' });
   }
 };
 
