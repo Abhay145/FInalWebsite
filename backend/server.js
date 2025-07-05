@@ -12,6 +12,7 @@ const adminRoutes = require('./routes/adminRoutes.js');
 const subjectsRoute = require('./routes/subjects.js');
 const Subject = require('../backend/models/Subject.js');
 const Student = require('../backend/models/Student.js');
+const rateLimit = require('express-rate-limit');
 const { authMiddleware } = require('../backend/middleware/authMiddleware.js');
 
 dotenv.config();
@@ -51,10 +52,19 @@ app.get('/api/subjects', async (req, res) => {
   }
 });
 const otpStore = {}; 
+const otpLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 1,
+  keyGenerator: (req) => req.body.email || req.ip,
+  message: {
+    success: false,
+    message: "Too many OTP requests. Wait a minute.",
+  },
+});
 
 
 
-app.post('/send-otp', async (req, res) => {
+app.post('/send-otp',otpLimiter, async (req, res) => {
     try {
         const { email } = req.body;
 
