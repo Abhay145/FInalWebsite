@@ -29,7 +29,11 @@ const [isDisabled, setIsDisabled] = useState(false);
       });
 
       const result = await response.json();
-
+      if (response.status === 429) {
+      // Rate limit hit
+      setError(result.message || "You have exceeded the OTP request limit. Please try again after one minute");
+      return;
+    }
       if (result.success) {
         alert(`OTP sent to ${email}`);
         setIsOtpSent(true);
