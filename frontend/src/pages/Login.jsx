@@ -13,14 +13,6 @@ export default function Login() {
   const navigate = useNavigate()
 
 
-  useEffect(()=>{
-    const isLogged = localStorage.getItem('token')
-    if (isLogged) {
-      const userType = localStorage.getItem('userType') || 'student'
-      navigate(`/${userType}/dashboard`)
-    }
-  },[])
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)

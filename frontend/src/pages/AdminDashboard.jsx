@@ -1,19 +1,51 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
 
 function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+  async function checkAdmin() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+     
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const resp = await axios.get("https://openelectivenitkkr.vercel.app/api/admin/check-admin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!resp.data.role) {
+       
+        navigate("/login");
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking admin:", error);
+      navigate("/login"); 
+    }
+  }
+
+  checkAdmin();
+}, [navigate]);
+
+
   const handleAssignBasedOnChoices = async () => {
     setLoading(true);
     setMessage("");
 
     try {
-      const token = localStorage.getItem("token");
-
+      
       const response = await axios.post(
         "https://openelectivenitkkr.vercel.app/api/admin/chosen-electives",
         {},
@@ -26,7 +58,9 @@ function AdminDashboard() {
 
       setMessage(response.data.message);
     } catch (error) {
-      setMessage("An error occurred while assigning electives based on choices.");
+      setMessage(
+        "An error occurred while assigning electives based on choices."
+      );
       console.error("Error:", error);
     } finally {
       setLoading(false);
@@ -99,7 +133,7 @@ function AdminDashboard() {
         {/* Buttons Section */}
         <div className="flex flex-col gap-4">
           {/* Assign Based on Choices */}
-{/*           <button
+          {/*           <button
             onClick={handleAssignBasedOnChoices}
             disabled={loading}
             className={`w-full px-6 py-3 text-lg rounded-lg font-semibold shadow-md transition-all ${
@@ -112,7 +146,7 @@ function AdminDashboard() {
           </button> */}
 
           {/* Assign Fallback Electives */}
-{/*          <button
+          {/*          <button
             onClick={handleAssignFallbackElectives}
             disabled={loading}
             className={`w-full px-6 py-3 text-lg rounded-lg font-semibold shadow-md transition-all ${

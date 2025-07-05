@@ -21,19 +21,8 @@ export default function Register() {
   const [passwordStrength, setPasswordStrength] = useState(0);
 
 
-  useEffect(()=>{
-   
-  },[])
 
   useEffect(() => {
-
-     const isLogged = localStorage.getItem("token");
-    
-    if (isLogged) {
-      const userType = localStorage.getItem("userType") || "student"; 
-      navigate("/student/dashboard");
-      return;
-    }
 
 
     const isVerified = localStorage.getItem("isVerified");
