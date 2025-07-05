@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useEffect } from 'react'
 
 export default function Login() {
   const [activeTab, setActiveTab] = useState('student')
@@ -10,6 +11,15 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false) // Add state for password visibility
   const navigate = useNavigate()
+
+
+  useEffect(()=>{
+    const isLogged = localStorage.getItem('token')
+    if (isLogged) {
+      const userType = localStorage.getItem('userType') || 'student'
+      navigate(`/${userType}/dashboard`)
+    }
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

@@ -65,15 +65,11 @@ const [isDisabled, setIsDisabled] = useState(false);
         if (result.success) {
             alert("Email verified successfully!");
             const username = email.split("@")[0]; // Extract username from email
-            console.log(username);
             const secretKey =  import.meta.env.VITE_CRYPTO_hello;
 
-            // console.log('CRYPTO_SECRET:', process.env.REACT_APP_CRYPTO_SECRET);
 
             const encryptedUsername = CryptoJS.AES.encrypt(username, secretKey).toString();
-            console.log(encryptedUsername);
             localStorage.setItem("username", encryptedUsername);
-            console.log("Hi");
             
 
             // Save verification status and username in localStorage

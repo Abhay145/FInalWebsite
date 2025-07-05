@@ -70,7 +70,6 @@ const UniqueDropdownForm = () => {
       setError('');
       setSuccess('Electives chosen successfully!');
       setSelectedValues({});
-      console.log(response.data.message);
     } catch (error) {
       setError(error.response?.data?.message || 'Error choosing electives');
       setSuccess('');
