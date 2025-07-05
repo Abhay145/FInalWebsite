@@ -20,10 +20,25 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
 
+
+  useEffect(()=>{
+   
+  },[])
+
   useEffect(() => {
+
+     const isLogged = localStorage.getItem("token");
+    
+    if (isLogged) {
+      const userType = localStorage.getItem("userType") || "student"; 
+      navigate("/student/dashboard");
+      return;
+    }
+
+
     const isVerified = localStorage.getItem("isVerified");
     if (isVerified !== "true") {
-      alert("Access denied! Complete email verification first.");
+      // alert("Access denied! Complete email verification first.");
       navigate("/otpverify");
       return;
     }
@@ -34,7 +49,7 @@ export default function Register() {
 
 
     const rollNumber = CryptoJS.AES.decrypt(encryptedUsername, secretKey).toString(CryptoJS.enc.Utf8);
-console.log(rollNumber)
+
     if (!rollNumber) {
       alert("Roll number missing in local storage.");
       navigate("/otpverify");
