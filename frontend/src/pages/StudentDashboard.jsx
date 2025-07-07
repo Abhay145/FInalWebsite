@@ -157,7 +157,7 @@ function StudentDashboard() {
                     key={index}
                     className="flex justify-between items-center p-4 bg-gray-100 rounded-md border"
                   >
-                    <span className="font-medium text-gray-700">{choice.name}</span>
+                    <span className="font-medium text-gray-700">{index + 1}. {choice.name}</span>
                     <span className="text-sm text-gray-500">(Code: {choice.code})</span>
                   </li>
                 ))}
