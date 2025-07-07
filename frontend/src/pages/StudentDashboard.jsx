@@ -113,18 +113,26 @@ function StudentDashboard() {
                   </button>
                 </>
               )}
-               <a
-  href="/sem6-syllabus.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-block"
->
-               <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition">
+              {student.sem === 5 ? (
+  <a
+    href="/5th Sem Open Electives.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition"
+  >
     Check Syllabus
-  </button>
-</a>
-                Check Syllabus
-              </button>
+  </a>
+) : (
+  <a
+    href="/7th Sem Open Electives .pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition"
+  >
+    Check Syllabus
+  </a>
+)}
+              
             </div>
           </div>
         )}
