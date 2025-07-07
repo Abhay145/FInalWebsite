@@ -113,11 +113,16 @@ function StudentDashboard() {
                   </button>
                 </>
               )}
-
-              <button
-                onClick={() => navigate("/syllabus")}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition"
-              >
+               <a
+  href="/sem6-syllabus.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-block"
+>
+               <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition">
+    Check Syllabus
+  </button>
+</a>
                 Check Syllabus
               </button>
             </div>
