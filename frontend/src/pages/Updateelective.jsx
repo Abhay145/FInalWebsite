@@ -6,26 +6,20 @@ const UpdateElective = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
-  // Fetch eligible electives and previously selected choices
   useEffect(() => {
     const fetchElectives = async () => {
       try {
         const token = localStorage.getItem('token');
-
-        // Fetch eligible electives
         const electivesResponse = await axios.get('https://openelectivenitkkr.vercel.app/api/eligible-subjects', {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        // Fetch previously selected electives
         const selectedResponse = await axios.get('https://openelectivenitkkr.vercel.app/api/student/selected-electives', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         setOptions(electivesResponse.data.electives);
-
-        // Prefill the dropdown with selected electives
         const initialValues = {};
         selectedResponse.data.selectedElectives.forEach((elective, index) => {
           initialValues[`field${index}`] = elective._id;
@@ -56,7 +50,6 @@ const UpdateElective = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const selectedElectives = Object.values(selectedValues).filter((value) => value !== null);
 
     try {
@@ -69,6 +62,8 @@ const UpdateElective = () => {
 
       setError('');
       setSuccess('Electives updated successfully!');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 5000);
     } catch (error) {
       setError(error.response?.data?.message || 'Error updating electives');
       setSuccess('');
@@ -80,7 +75,6 @@ const UpdateElective = () => {
       {/* Header */}
       <header className="bg-red-500 text-white py-4 shadow-md flex items-center justify-between px-6">
         <div className="flex items-center space-x-4">
-          {/* Logo */}
           <a href="/student/dashboard">
             <img
               src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
@@ -88,7 +82,7 @@ const UpdateElective = () => {
               className="h-12 w-12 cursor-pointer"
             />
           </a>
-          <h1 className="text-xl font-semibold">NIT Kurukshetra - Elective Selection</h1>
+          <h1 className="text-xl font-semibold">NIT Kurukshetra - Elective Update</h1>
         </div>
       </header>
 
@@ -97,7 +91,6 @@ const UpdateElective = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
             <form onSubmit={handleSubmit}>
-              {/* Change */}
               {options.slice(0, options.length - 2).map((option, index) => (
                 <div key={`field${index}`} className="form-group mb-4">
                   <label htmlFor={`field${index}`} className="block font-medium text-gray-700">
@@ -137,7 +130,7 @@ const UpdateElective = () => {
                 Submit
               </button>
             </form>
-            {/* Back to dashboard button */}
+
             <div className="text-center mt-6">
               <a
                 href="/student/dashboard"
@@ -149,6 +142,14 @@ const UpdateElective = () => {
           </div>
         </div>
       </div>
+
+      {/* Floating Popup */}
+      {showPopup && (
+        <div className="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg transition-opacity duration-300">
+          Kindly check if your choices have been updated correctly from the Student Dashboard.
+          Internet issues can sometimes have them not updated.
+        </div>
+      )}
     </div>
   );
 };
