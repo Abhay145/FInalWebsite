@@ -144,14 +144,22 @@ const UpdateElective = () => {
       </div>
 
       {/* Floating Popup */}
-      {showPopup && (
-        <div className="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg transition-opacity duration-300">
-          Kindly check if your choices have been updated correctly from the Student Dashboard.
-          Internet issues can sometimes have them not updated.
-        </div>
-      )}
+     {showPopup && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-xl text-center relative animate-fadeIn">
+      <button
+        className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-2xl font-bold"
+        onClick={() => setShowPopup(false)}
+      >
+        &times;
+      </button>
+      <h3 className="text-lg font-semibold text-green-600 mb-2">Electives Updated Successfully!</h3>
+      <p className="text-gray-700 text-sm">
+       Please verify from the Student Dashboard that your elective choices have been updated successfully. In rare cases, network issues may prevent updates from being saved
+      </p>
     </div>
-  );
-};
+  </div>
+)}
+;
 
 export default UpdateElective;
