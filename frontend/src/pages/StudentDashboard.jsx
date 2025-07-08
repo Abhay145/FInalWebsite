@@ -134,6 +134,7 @@ function StudentDashboard() {
         )}
       </main>
 
+      {/* Scrollable Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-lg p-6 animate-fadeIn">
@@ -147,7 +148,7 @@ function StudentDashboard() {
               </button>
             </div>
             {chosenElectives.length > 0 ? (
-              <ul className="space-y-3">
+              <ul className="max-h-64 overflow-y-auto pr-1 space-y-3">
                 {chosenElectives.map((choice, index) => (
                   <li
                     key={index}
