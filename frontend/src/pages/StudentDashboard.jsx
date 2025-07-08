@@ -127,7 +127,7 @@ function StudentDashboard() {
                 <li>Select open electives in order of priority, with Subject 1 as Preference 1, Subject 2 as Preference 2, and so on.</li>
                 <li>Once a subject is allocated, no changes will be permitted.</li>
                 <li>Students may edit their submitted choices at any time before the deadline.</li>
-                <li><strong>Open Elective Choice Submission Window:</strong> 7th July 2025 to 10th July 2025 (till 5:00 PM). No submissions will be accepted after the deadline.</li>
+                <li><strong>Open Elective Choice Submission Window:</strong> 9th July 2025 to 13th July 2025. No submissions will be accepted after the deadline.</li>
               </ul>
             </section>
           </div>
