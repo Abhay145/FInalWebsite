@@ -71,69 +71,65 @@ function StudentDashboard() {
               </ul>
             </section>
 
+            {/* Actions Section */}
             <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Electives Allotted</h2>
-              {subjects.length > 0 ? (
-                <ul className="space-y-3">
-                  {subjects.map((subj, index) => (
-                    <li key={index} className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border">
-                      <span className="font-medium text-gray-800">{subj.name}</span>
-                      <span className="text-sm text-gray-500">(Code: {subj.code})</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-600">No subjects allotted.</p>
-              )}
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Actions</h2>
+              <div className="flex flex-wrap gap-4 justify-center">
+                {student.subjects == null && student.choices?.length === 0 && (
+                  <button
+                    onClick={() => navigate("/openelective")}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                  >
+                    Select Open Electives
+                  </button>
+                )}
+
+                {student.subjects == null && chosenElectives.length > 0 && (
+                  <>
+                    <button
+                      onClick={() => navigate("/Updateelective")}
+                      className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                    >
+                      Update Chosen Electives
+                    </button>
+                    <button
+                      onClick={() => setShowModal(true)}
+                      className="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                    >
+                      View Chosen Electives
+                    </button>
+                  </>
+                )}
+
+                <a
+                  href={
+                    student.sem === 5
+                      ? "/5th Sem Open Electives.pdf"
+                      : "/7th Sem Open Electives .pdf"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                >
+                  Check Syllabus
+                </a>
+              </div>
             </section>
 
-            <div className="flex flex-wrap gap-4 justify-center">
-              {student.subjects == null && student.choices?.length === 0 && (
-                <button
-                  onClick={() => navigate("/openelective")}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition"
-                >
-                  Select Open Electives
-                </button>
-              )}
-
-              {student.subjects == null && chosenElectives.length > 0 && (
-                <>
-                  <button
-                    onClick={() => navigate("/Updateelective")}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg shadow-md transition"
-                  >
-                    Update Chosen Electives
-                  </button>
-                  <button
-                    onClick={() => setShowModal(true)}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg shadow-md transition"
-                  >
-                    View Chosen Electives
-                  </button>
-                </>
-              )}
-              {student.sem === 5 ? (
-  <a
-    href="/5th Sem Open Electives.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition"
-  >
-    Check Syllabus
-  </a>
-) : (
-  <a
-    href="/7th Sem Open Electives .pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md transition"
-  >
-    Check Syllabus
-  </a>
-)}
-              
-            </div>
+            {/* Guidelines & Eligibility */}
+            <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Guidelines for Allocation</h2>
+              <ul className="text-sm text-600 list-disc pl-6 space-y-1">
+                <li><strong>5th Semester Students (including re-appears):</strong> Allocation will be determined using the average SGPA from 1st to 3rd semesters.</li>
+                <li><strong>7th Semester Regular Students:</strong> Allocation will be based on the 5th semester CGPA.</li>
+                <li><strong>7th Semester Students (with Re-appear):</strong> Allocation will be determined using the average SGPA from 1st to 4th semesters.</li>
+                <li>Allocation of electives will be strictly based on merit. In case of a CGPA tie, preference will be given to the student who submits the form earlier.</li>
+                <li>Select open electives in order of priority, with Subject 1 as Preference 1, Subject 2 as Preference 2, and so on.</li>
+                <li>Once a subject is allocated, no changes will be permitted.</li>
+                <li>Students may edit their submitted choices at any time before the deadline.</li>
+                <li><strong>Open Elective Choice Submission Window:</strong> 7th July 2025 to 10th July 2025 (till 5:00 PM). No submissions will be accepted after the deadline.</li>
+              </ul>
+            </section>
           </div>
         )}
       </main>
@@ -157,7 +153,7 @@ function StudentDashboard() {
                     key={index}
                     className="flex justify-between items-center p-4 bg-gray-100 rounded-md border"
                   >
-                    <span className="font-medium text-gray-700">{index + 1}. {choice.name}</span>
+                    <span className="font-medium text-gray-700">{choice.name}</span>
                     <span className="text-sm text-gray-500">(Code: {choice.code})</span>
                   </li>
                 ))}
