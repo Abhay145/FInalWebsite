@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import CryptoJS from "crypto-js";
+
 export default function OtpVerification() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
-const [isDisabled, setIsDisabled] = useState(false);
+
   const sendOTP = async () => {
     if (!email) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    // Frontend domain validation
     if (!email.endsWith("@nitkkr.ac.in")) {
       setError("Please use your NIT KKR email address (e.g., example@nitkkr.ac.in).");
       return;
@@ -30,10 +31,9 @@ const [isDisabled, setIsDisabled] = useState(false);
 
       const result = await response.json();
       if (response.status === 429) {
-      // Rate limit hit
-      setError(result.message || "You have exceeded the OTP request limit. Please try again after one minute");
-      return;
-    }
+        setError(result.message || "You have exceeded the OTP request limit. Please try again after one minute");
+        return;
+      }
       if (result.success) {
         alert(`OTP sent to ${email}`);
         setIsOtpSent(true);
@@ -48,43 +48,38 @@ const [isDisabled, setIsDisabled] = useState(false);
 
   const verifyOTP = async () => {
     if (!otp) {
-        setError("Please enter the OTP.");
-        return;
+      setError("Please enter the OTP.");
+      return;
     }
 
     try {
-        setError(""); // Clear any previous errors
-        const response = await fetch("https://openelectivenitkkr.vercel.app/verify-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, otp }),
-        });
+      setError("");
+      const response = await fetch("https://openelectivenitkkr.vercel.app/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp }),
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.success) {
-            alert("Email verified successfully!");
-            const username = email.split("@")[0]; // Extract username from email
-            const secretKey =  import.meta.env.VITE_CRYPTO_hello;
+      if (result.success) {
+        alert("Email verified successfully!");
+        const username = email.split("@")[0];
+        const secretKey = import.meta.env.VITE_CRYPTO_hello;
 
+        const encryptedUsername = CryptoJS.AES.encrypt(username, secretKey).toString();
+        localStorage.setItem("username", encryptedUsername);
+        localStorage.setItem("isVerified", "true");
 
-            const encryptedUsername = CryptoJS.AES.encrypt(username, secretKey).toString();
-            localStorage.setItem("username", encryptedUsername);
-            
-
-            // Save verification status and username in localStorage
-            localStorage.setItem("isVerified", "true");
-
-            // Navigate to the registration page with the email as state
-            navigate("/Register", { state: { email } });
-        } else {
-            setError(result.message || "Failed to verify OTP. Please try again.");
-        }
+        navigate("/Register", { state: { email } });
+      } else {
+        setError(result.message || "Failed to verify OTP. Please try again.");
+      }
     } catch (error) {
-        console.error("Error verifying OTP:", error);
-        setError("An error occurred. Please try again.");
+      console.error("Error verifying OTP:", error);
+      setError("An error occurred. Please try again.");
     }
-};
+  };
 
   return (
     <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
@@ -106,11 +101,11 @@ const [isDisabled, setIsDisabled] = useState(false);
       />
       {!isOtpSent && (
         <button
-        onClick={() => {
-          sendOTP();
-          setIsDisabled(true); // Disable the button
-        }}
-        disabled={isDisabled}
+          onClick={() => {
+            sendOTP();
+            setIsDisabled(true);
+          }}
+          disabled={isDisabled}
           style={{
             width: "100%",
             padding: "10px",
@@ -172,6 +167,16 @@ const [isDisabled, setIsDisabled] = useState(false);
           {error}
         </div>
       )}
+
+      {/* Already registered link */}
+      <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <p style={{ fontSize: "14px" }}>
+          Already registered?{" "}
+          <Link to="/login" style={{ color: "#007bff" }}>
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
