@@ -72,7 +72,7 @@ const UpdateElective = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <header className="bg-red-500 text-white py-4 shadow-md flex items-center justify-between px-6">
+      <header className="bg-red-500 text-white py-4 shadow-md flex items-center justify-between px-4 md:px-6">
         <div className="flex items-center space-x-4">
           <a href="/student/dashboard">
             <img
@@ -81,14 +81,14 @@ const UpdateElective = () => {
               className="h-12 w-12 cursor-pointer"
             />
           </a>
-          <h1 className="text-xl font-semibold">NIT Kurukshetra - Elective Update</h1>
+          <h1 className="text-lg md:text-xl font-semibold">NIT Kurukshetra - Elective Update</h1>
         </div>
       </header>
 
       <div className="container mx-auto py-8 px-4">
-        <div className="w-[40vw] mx-auto space-y-6">
+        <div className="w-full max-w-2xl mx-auto px-2 md:px-0 space-y-6">
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
+            <h2 className="text-lg md:text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Select Your Electives</h2>
             <form onSubmit={handleSubmit}>
               {options.slice(0, options.length - 2).map((option, index) => (
                 <div key={`field${index}`} className="form-group mb-4">
@@ -119,8 +119,8 @@ const UpdateElective = () => {
                 </div>
               ))}
 
-              {error && <p className="text-red-500 text-center">{error}</p>}
-              {success && <p className="text-green-500 text-center">{success}</p>}
+              {error && <p className="text-red-500 text-center text-sm">{error}</p>}
+              {success && <p className="text-green-500 text-center text-sm">{success}</p>}
 
               <button
                 type="submit"
@@ -145,7 +145,7 @@ const UpdateElective = () => {
       {/* Center Modal Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-xl text-center relative animate-fadeIn">
+          <div className="bg-white w-[90%] max-w-sm p-6 rounded-xl shadow-xl text-center relative animate-fadeIn">
             <button
               className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-2xl font-bold"
               onClick={() => setShowPopup(false)}
