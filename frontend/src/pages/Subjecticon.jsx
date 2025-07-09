@@ -72,8 +72,8 @@ function Subjecticon() {
   
 
   // Separate subjects by semester
-  const semester6Subjects = subjects.filter((subject) => subject.sem === 6);
-  const semester8Subjects = subjects.filter((subject) => subject.sem === 8);
+  const semester6Subjects = subjects.filter((subject) => subject.sem === 5);
+  const semester8Subjects = subjects.filter((subject) => subject.sem === 7);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -107,7 +107,7 @@ function Subjecticon() {
 
             {/* 6th Semester Section */}
             <div className="mb-8 flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-700">6th Semester</h2>
+              <h2 className="text-xl font-semibold text-gray-700">5th Semester</h2>
               <button
                 onClick={() => {
            
@@ -130,13 +130,13 @@ function Subjecticon() {
                   </div>
                 ))
               ) : (
-                <div className="text-center text-gray-500">No subjects for 6th semester.</div>
+                <div className="text-center text-gray-500">No subjects for 5th semester.</div>
               )}
             </div>
 
             {/* 8th Semester Section */}
             <div className="mt-8 flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-700">8th Semester</h2>
+              <h2 className="text-xl font-semibold text-gray-700">7th Semester</h2>
               <button
                 onClick={() => exportToExcel(semester8Subjects)}
                 className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition"
@@ -156,7 +156,7 @@ function Subjecticon() {
                   </div>
                 ))
               ) : (
-                <div className="text-center text-gray-500">No subjects for 8th semester.</div>
+                <div className="text-center text-gray-500">No subjects for 7th semester.</div>
               )}
             </div>
           </div>
