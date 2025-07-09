@@ -8,7 +8,7 @@ const { authMiddleware } = require('../middleware/authMiddleware.js');
 const router = express.Router();
 const electiveLimiter = rateLimit({
   windowMs: 3 * 60 * 1000, // 3 minutes
-  max: 5, // limit each IP/token to 3 requests
+  max: 10, // limit each IP/token to 3 requests
   message: {
     message: 'Too many submissions. Please wait 3 minutes and try again.',
   },
