@@ -54,7 +54,7 @@ app.get('/api/subjects', async (req, res) => {
 const otpStore = {}; 
 const otpLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 1,
+  max: 4,
   keyGenerator: (req) => req.body.email || req.ip,
   message: {
     success: false,
