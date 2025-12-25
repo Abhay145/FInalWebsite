@@ -21,7 +21,7 @@ function HomePage() {
           NIT Kurukshetra
         </h1>
         <p className="mt-4 text-white/90 text-lg max-w-md leading-relaxed">
-        Open Elective for 5th and 7th Semester
+        Open Elective for 6th and 8th Semester
         </p>
 
         {/* Buttons */}
@@ -50,3 +50,4 @@ function HomePage() {
 }
 
 export default HomePage;
+
