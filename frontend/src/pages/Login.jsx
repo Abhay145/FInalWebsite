@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { useEffect } from 'react'
 
 export default function Login() {
   const [activeTab, setActiveTab] = useState('student')
@@ -9,16 +8,19 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false) // Add state for password visibility
-  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
     try {
-      const response = await axios.post(`https://openelectivenitkkr.vercel.app/api/${activeTab}/login`, { email, password })
+      const response = await axios.post(
+        `https://openelectivenitkkr.vercel.app/api/${activeTab}/login`,
+        { email, password }
+      )
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('userType', activeTab)
       navigate(`/${activeTab}/dashboard`)
@@ -30,110 +32,133 @@ export default function Login() {
   }
 
   return (
-    <div className="container mx-auto max-w-md py-12 px-4">
-      <div className="mb-6">
-        <div className="flex border-b">
-          <button
-            className={`py-2 px-4 ${activeTab === 'student' ? 'border-b-2 border-blue-500' : ''}`}
-            onClick={() => setActiveTab('student')}
-          >
-            Student
-          </button>
-          <button
-            className={`py-2 px-4 ${activeTab === 'professor' ? 'border-b-2 border-blue-500' : ''}`}
-            onClick={() => setActiveTab('professor')}
-          >
-            Professor
-          </button>
-          <button
-            className={`py-2 px-4 ${activeTab === 'admin' ? 'border-b-2 border-blue-500' : ''}`}
-            onClick={() => setActiveTab('admin')}
-          >
-            Admin
-          </button>
-        </div>
-      </div>
+    <div className="container mx-auto max-w-4xl py-12 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-      <h1 className="text-2xl font-bold mb-6">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Login</h1>
+        {/* ================= LOGIN SECTION ================= */}
+        <div>
+          <div className="mb-6">
+            <div className="flex border-b">
+              {['student', 'professor', 'admin'].map((tab) => (
+                <button
+                  key={tab}
+                  className={`py-2 px-4 capitalize ${
+                    activeTab === tab ? 'border-b-2 border-blue-500 font-semibold' : ''
+                  }`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-            />
+          <h1 className="text-2xl font-bold mb-6">
+            {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Login
+          </h1>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 focus:border-blue-300"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 focus:border-blue-300"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                {error}
+              </div>
+            )}
+
             <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-3 flex items-center text-gray-500 focus:outline-none"
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-700"
             >
-              {showPassword ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m9-7.45A9 9 0 015.95 5.95a9 9 0 0115.05 7z" />
-                </svg>
-              )}
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
+          </form>
+
+          <p className="mt-4 text-center">
+            Don&apos;t have an account or forgot password?{' '}
+            <a href="/register" className="text-blue-600 hover:underline">
+              Register here
+            </a>
+          </p>
+        </div>
+
+        {/* ================= GUIDELINES SECTION ================= */}
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 sm:p-5 text-sm text-gray-700 h-fit">
+          <h2 className="text-lg font-semibold mb-3 text-gray-900">
+            Open Elective Allocation Guidelines
+            <span className="block text-xs font-normal text-gray-500">
+              6th & 8th Semester • Academic Year 2025–26
+            </span>
+          </h2>
+
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold">1. Subject Choice Submission</h3>
+              <ul className="list-disc ml-5 mt-1 space-y-1">
+                <li>Submit elective choices priority-wise before the deadline.</li>
+                <li>Detailed syllabus is available on the website.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">2. Eligibility Criteria</h3>
+              <ul className="list-disc ml-5 mt-1 space-y-1">
+                <li>
+                  <strong>6th Semester:</strong> 4th semester CGPA or average SGPA (1st–4th)(if CGPA not available).
+                </li>
+                <li>
+                  <strong>8th Semester:</strong> 6th semester CGPA or average SGPA (1st–6th)(if CGPA not available).
+                </li>
+                <li>Allocation is strictly merit-based.</li>
+                <li>CGPA-based students get priority over SGPA-based cases.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">3. Important Instructions</h3>
+              <ul className="list-disc ml-5 mt-1 space-y-1">
+                <li>Choices can be edited before the deadline.</li>
+                <li>
+                  <strong>Window:</strong> 27 Dec 2025 – 31 Dec 2025 (till 5:00 PM).
+                </li>
+                <li>No submissions after deadline.</li>
+                <li>Once allocated, changes are not permitted.</li>
+              </ul>
+            </div>
           </div>
         </div>
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong className="font-bold">Error!</strong>
-            <span className="block sm:inline"> {error}</span>
-          </div>
-        )}
-        <button
-          type="submit"
-          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-      <p className="mt-4 text-center">
-        Don't have an account or forgot password?{' '}
-        <a href="/register" className="text-blue-600 hover:underline">
-          Register here
-        </a>
-      </p>
+
+      </div>
     </div>
   )
 }
