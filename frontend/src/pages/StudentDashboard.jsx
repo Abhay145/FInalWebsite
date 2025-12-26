@@ -103,9 +103,9 @@ function StudentDashboard() {
 
                 <a
                   href={
-                    student.sem === 5
+                    student.sem === 6
                       ? "/6th Semester Open Elective Syllabus.pdf"
-                      : "/8th Semester Open Elective Syllabus.pdf"
+                      : "/8th Semester Open Elective Courses Syllabus.pdf"
                   }
                   target="_blank"
                   rel="noopener noreferrer"
@@ -221,6 +221,7 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
+
 
 
 
