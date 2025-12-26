@@ -122,7 +122,9 @@ function StudentDashboard() {
     Guidelines for Open Elective Allocation
   </h2>
 
-  <ul className="text-sm text-gray-600 list-disc pl-6 space-y-2">
+  <ul className="text-sm text-gray-800 list-disc pl-6 space-y-2">
+    <li>
+    <strong>8th Semester Internship students are required to fill their elective choices</strong></li>
     <li>
       <strong>Subject Choice Submission:</strong>
       <ul className="list-disc pl-6 mt-1 space-y-1">
@@ -219,4 +221,5 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
+
 
