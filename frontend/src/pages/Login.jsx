@@ -35,8 +35,54 @@ export default function Login() {
     <div className="container mx-auto max-w-4xl py-12 px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        {/* ================= LOGIN SECTION ================= */}
-        <div>
+        {/* ================= GUIDELINES (LEFT) ================= */}
+        <div className="order-2 md:order-1 bg-gray-50 border border-gray-200 rounded-lg p-4 sm:p-5 text-sm text-gray-700 h-fit">
+          <h2 className="text-lg font-semibold mb-3 text-gray-900">
+            Open Elective Allocation Guidelines
+            <span className="block text-xs font-normal text-gray-500">
+              6th & 8th Semester • Academic Year 2025–26
+            </span>
+          </h2>
+
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold">1. Subject Choice Submission</h3>
+              <ul className="list-disc ml-5 mt-1 space-y-1">
+                <li>Submit elective choices priority-wise before the deadline.</li>
+                <li>Detailed syllabus is available on the website.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">2. Eligibility Criteria</h3>
+              <ul className="list-disc ml-5 mt-1 space-y-1">
+                <li>
+                  <strong>6th Semester:</strong> 4th semester CGPA or average SGPA (1st–4th) (if CGPA not available).
+                </li>
+                <li>
+                  <strong>8th Semester:</strong> 6th semester CGPA or average SGPA (1st–6th) (if CGPA not available).
+                </li>
+                <li>Allocation is strictly merit-based.</li>
+                <li>CGPA-based students get priority over SGPA-based cases.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">3. Important Instructions</h3>
+              <ul className="list-disc ml-5 mt-1 space-y-1">
+                <li>Choices can be edited before the deadline.</li>
+                <li>
+                  <strong>Window:</strong> 27 Dec 2025 – 31 Dec 2025 (till 5:00 PM).
+                </li>
+                <li>No submissions after deadline.</li>
+                <li>Once allocated, changes are not permitted.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= LOGIN (RIGHT) ================= */}
+        <div className="order-1 md:order-2">
           <div className="mb-6">
             <div className="flex border-b">
               {['student', 'professor', 'admin'].map((tab) => (
@@ -110,52 +156,6 @@ export default function Login() {
               Register here
             </a>
           </p>
-        </div>
-
-        {/* ================= GUIDELINES SECTION ================= */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 sm:p-5 text-sm text-gray-700 h-fit">
-          <h2 className="text-lg font-semibold mb-3 text-gray-900">
-            Open Elective Allocation Guidelines
-            <span className="block text-xs font-normal text-gray-500">
-              6th & 8th Semester • Academic Year 2025–26
-            </span>
-          </h2>
-
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold">1. Subject Choice Submission</h3>
-              <ul className="list-disc ml-5 mt-1 space-y-1">
-                <li>Submit elective choices priority-wise before the deadline.</li>
-                <li>Detailed syllabus is available on the website.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold">2. Eligibility Criteria</h3>
-              <ul className="list-disc ml-5 mt-1 space-y-1">
-                <li>
-                  <strong>6th Semester:</strong> 4th semester CGPA or average SGPA (1st–4th)(if CGPA not available).
-                </li>
-                <li>
-                  <strong>8th Semester:</strong> 6th semester CGPA or average SGPA (1st–6th)(if CGPA not available).
-                </li>
-                <li>Allocation is strictly merit-based.</li>
-                <li>CGPA-based students get priority over SGPA-based cases.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold">3. Important Instructions</h3>
-              <ul className="list-disc ml-5 mt-1 space-y-1">
-                <li>Choices can be edited before the deadline.</li>
-                <li>
-                  <strong>Window:</strong> 27 Dec 2025 – 31 Dec 2025 (till 5:00 PM).
-                </li>
-                <li>No submissions after deadline.</li>
-                <li>Once allocated, changes are not permitted.</li>
-              </ul>
-            </div>
-          </div>
         </div>
 
       </div>
