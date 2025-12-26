@@ -118,18 +118,67 @@ function StudentDashboard() {
 
             {/* Guidelines & Eligibility */}
             <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Guidelines for Allocation</h2>
-              <ul className="text-sm text-600 list-disc pl-6 space-y-1">
-                <li><strong>5th Semester Students (including re-appears):</strong> Allocation will be determined using the average SGPA from 1st to 3rd semesters.</li>
-                <li><strong>7th Semester Regular Students:</strong> Allocation will be based on the 5th semester CGPA.</li>
-                <li><strong>7th Semester Students (with Re-appear):</strong> Allocation will be determined using the average SGPA from 1st to 4th semesters.</li>
-                <li>Allocation of electives will be strictly based on merit. In case of a CGPA tie, preference will be given to the student who submits the form earlier.</li>
-                <li>Select open electives in order of priority, with Subject 1 as Preference 1, Subject 2 as Preference 2, and so on.</li>
-                <li>Once a subject is allocated, no changes will be permitted.</li>
-                <li>Students may edit their submitted choices at any time before the deadline.</li>
-                <li><strong>Open Elective Choice Submission Window:</strong> 9th July 2025 to 15th July 2025. No submissions will be accepted after the deadline.</li>
-              </ul>
-            </section>
+  <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">
+    Guidelines for Open Elective Allocation
+  </h2>
+
+  <ul className="text-sm text-gray-600 list-disc pl-6 space-y-2">
+    <li>
+      <strong>Subject Choice Submission:</strong>
+      <ul className="list-disc pl-6 mt-1 space-y-1">
+        <li>
+          Each student must submit their open elective choices priority-wise
+          from the available list before the deadline.
+        </li>
+        <li>
+          A detailed syllabus for each elective subject is available on the
+          website for reference.
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <strong>Eligibility Criteria for Allocation:</strong>
+      <ul className="list-disc pl-6 mt-1 space-y-1">
+        <li>
+          <strong>6th Semester Students (including re-appears):</strong>
+          Allocation will be based on 4th semester CGPA or the average SGPA
+          from 1st to 4th semesters (if CGPA is not available).
+        </li>
+        <li>
+          <strong>8th Semester Students (including re-appears):</strong>
+          Allocation will be based on 6th semester CGPA or the average SGPA
+          from 1st to 6th semesters (if CGPA is not available).
+        </li>
+        <li>
+          <strong>Merit-Based Allocation Policy:</strong>
+          Final allocation will be strictly merit-based. Students evaluated
+          using CGPA will be given priority over those considered on average
+          SGPA due to re-appear.
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <strong>Instructions:</strong>
+      <ul className="list-disc pl-6 mt-1 space-y-1">
+        <li>
+          Students may edit their submitted choices any number of times
+          before the deadline.
+        </li>
+        <li>
+          <strong>Open Elective Choice Submission Window:</strong> 27th
+          December 2025 to 31st December 2025 (till 5:00 PM). No submissions
+          will be accepted after the deadline.
+        </li>
+        <li>
+          Once a subject is allocated, no changes will be permitted.
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
           </div>
         )}
       </main>
@@ -170,3 +219,4 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
+
