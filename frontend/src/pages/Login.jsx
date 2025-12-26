@@ -43,6 +43,9 @@ export default function Login() {
               6th & 8th Semester • Academic Year 2025–26
             </span>
           </h2>
+          <p className="mb-3 text-sm font-semibold text-red-600">
+  8th Semester Internship students are required to fill their elective choices.
+          </p>
 
           <div className="space-y-4">
             <div>
@@ -162,3 +165,4 @@ export default function Login() {
     </div>
   )
 }
+
