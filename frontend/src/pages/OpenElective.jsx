@@ -43,7 +43,9 @@ const UniqueDropdownForm = () => {
   };
 
   const getFilteredOptions = (field) => {
-    const selectedOptions = Object.values(selectedValues);
+    const selectedOptions = const selectedElectives = options.map(
+  (_, index) => selectedValues[`field${index}`]
+);
     return options.map((option) => ({
       ...option,
       isSelected: selectedOptions.includes(option._id) && selectedValues[field] !== option._id,
@@ -192,6 +194,7 @@ export default UniqueDropdownForm;
 // };
 
 // export default UniqueDropdownForm;
+
 
 
 
