@@ -42,24 +42,31 @@ const UniqueDropdownForm = () => {
     }));
   };
 
-  const getFilteredOptions = (field) => {
-    const selectedOptions = const selectedElectives = options.map(
-  (_, index) => selectedValues[`field${index}`]
-);
-    return options.map((option) => ({
-      ...option,
-      isSelected: selectedOptions.includes(option._id) && selectedValues[field] !== option._id,
-    }));
-  };
+const getFilteredOptions = (field) => {
+  const selectedOptions = options.map(
+    (_, index) => selectedValues[`field${index}`]
+  );
+
+  return options.map((option) => ({
+    ...option,
+    isSelected:
+      selectedOptions.includes(option._id) &&
+      selectedValues[field] !== option._id,
+  }));
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const selectedElectives = Object.values(selectedValues).filter((value) => value !== null);
-    if (selectedElectives.length !== options.length) {
-      setError(`Please select ${options.length} electives.`);
-      setSuccess('');
-      return;
-    }
+   const selectedElectives = options.map(
+  (_, index) => selectedValues[`field${index}`]
+);
+
+if (selectedElectives.some(v => !v)) {
+  setError(`Please select ${options.length} electives.`);
+  setSuccess('');
+  return;
+}
+
 
     try {
       const token = localStorage.getItem('token');
@@ -194,6 +201,7 @@ export default UniqueDropdownForm;
 // };
 
 // export default UniqueDropdownForm;
+
 
 
 
