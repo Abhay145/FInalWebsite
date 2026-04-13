@@ -83,7 +83,7 @@ export default function Login() {
         </li>
         <li>No submissions/changes after deadline.</li>
         <li>Once allocated, changes are not permitted.</li>
-        <li>Verify your submitted choices on the Home Page.</li>
+        <li className="font-bold text-red-600">Verify your submitted choices on the Home Page.</li>
       </ul>
     </div>
 
