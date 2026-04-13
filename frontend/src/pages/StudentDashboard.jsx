@@ -196,7 +196,7 @@ function StudentDashboard() {
                     "Choices may be edited at any time before the deadline.",
                     "No submissions or changes accepted after the deadline.",
                     "Once a subject is allocated, no changes will be permitted.",
-                    "Verify your Open Elective choices after submission from the home page.",
+                    "<span style='color:red; font-weight:bold;'>Please verify your Open Elective choices after submission by checking them on the Home Page..</span>",
                   ],
                 },
               ].map((section, si) => (
