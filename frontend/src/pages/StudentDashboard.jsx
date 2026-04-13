@@ -16,16 +16,18 @@ function StudentDashboard() {
       try {
         const token = localStorage.getItem("token");
 
-        const studentRes = await axios.get("https://openelectivenitkkr.vercel.app/api/student/details", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const studentRes = await axios.get(
+          "https://openelectivenitkkr.vercel.app/api/student/details",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         setStudent(studentRes.data.student);
         setSubjects(studentRes.data.student.subjects || []);
 
-        const selectedResponse = await axios.get("https://openelectivenitkkr.vercel.app/api/student/selected-electives", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const selectedResponse = await axios.get(
+          "https://openelectivenitkkr.vercel.app/api/student/selected-electives",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         setChosenElectives(selectedResponse.data.selectedElectives || []);
       } catch (err) {
@@ -39,46 +41,76 @@ function StudentDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 font-sans">
-      <header className="bg-gradient-to-r from-red-500 to-red-700 text-white py-6 shadow-lg flex items-center justify-between px-8">
-        <div className="flex items-center space-x-5">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
-            alt="NIT Kurukshetra Logo"
-            className="h-14 w-14 drop-shadow-md"
-          />
-          <h1 className="text-2xl font-bold tracking-wide">NIT Kurukshetra - Student Dashboard</h1>
+    <div className="min-h-screen bg-gray-50 font-sans">
+
+      {/* ── Header ── */}
+      <header className="bg-gradient-to-r from-red-700 via-red-600 to-red-500 text-white px-6 py-4 flex items-center justify-between shadow-md">
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png"
+              alt="NIT Kurukshetra Logo"
+              className="h-8 w-8 object-contain"
+            />
+          </div>
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-red-200 uppercase">
+              NIT Kurukshetra
+            </p>
+            <h1 className="text-lg font-bold leading-tight">Student Dashboard</h1>
+          </div>
         </div>
+        <span className="text-xs font-medium bg-white/15 px-3 py-1 rounded-full border border-white/20">
+          Session 2025–26
+        </span>
       </header>
 
-      <main className="container mx-auto py-10 px-6">
+      {/* ── Main ── */}
+      <main className="max-w-2xl mx-auto px-4 py-8 space-y-5">
         {loading ? (
-          <div className="flex flex-col items-center">
-            <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-600 mt-3">Loading student details...</p>
+          <div className="flex flex-col items-center py-20">
+            <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-gray-500 mt-3 text-sm">Loading student details…</p>
           </div>
         ) : error ? (
-          <p className="text-red-600 text-center text-lg font-medium">{error}</p>
+          <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-5 py-4 text-sm font-medium text-center">
+            {error}
+          </div>
         ) : (
-          <div className="space-y-8 max-w-3xl mx-auto">
-            <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Student Information</h2>
-              <ul className="grid grid-cols-2 gap-y-4 gap-x-6 text-gray-700">
-                <li><span className="font-semibold">Roll Number:</span> {student.rollNumber}</li>
-                <li><span className="font-semibold">Name:</span> {student.name}</li>
-                <li><span className="font-semibold">Email:</span> {student.email}</li>
-                <li><span className="font-semibold">Branch:</span> {student.branch}</li>
-              </ul>
+          <>
+            {/* ── Student Info ── */}
+            <section className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100">
+                <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+                  Student Information
+                </p>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-y divide-gray-100">
+                {[
+                  ["Roll Number", student.rollNumber],
+                  ["Name", student.name],
+                  ["Email", student.email],
+                  ["Branch", student.branch],
+                ].map(([label, value]) => (
+                  <div key={label} className="px-5 py-3">
+                    <p className="text-xs text-gray-400 mb-0.5">{label}</p>
+                    <p className="text-sm font-semibold text-gray-800 truncate">{value}</p>
+                  </div>
+                ))}
+              </div>
             </section>
 
-            {/* Actions Section */}
-            <section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">Actions</h2>
-              <div className="flex flex-wrap gap-4 justify-center">
+            {/* ── Actions ── */}
+            <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-4">
+                Actions
+              </p>
+
+              <div className="flex flex-wrap gap-3">
                 {student.subjects == null && student.choices?.length === 0 && (
                   <button
                     onClick={() => navigate("/openelective")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                    className="bg-red-600 hover:bg-red-700 active:scale-95 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150 shadow-sm"
                   >
                     Select Open Electives
                   </button>
@@ -88,13 +120,13 @@ function StudentDashboard() {
                   <>
                     <button
                       onClick={() => navigate("/Updateelective")}
-                      className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                      className="bg-gray-100 hover:bg-gray-200 active:scale-95 text-gray-800 text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150"
                     >
-                      Update Chosen Electives
+                      Update Electives
                     </button>
                     <button
                       onClick={() => setShowModal(true)}
-                      className="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                      className="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 text-sm font-semibold px-5 py-2.5 rounded-xl border border-gray-200 transition-all duration-150"
                     >
                       View Chosen Electives
                     </button>
@@ -109,108 +141,129 @@ function StudentDashboard() {
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-6 py-2 rounded-xl shadow-sm transition transform hover:scale-105"
+                  className="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150 shadow-sm"
                 >
                   Check Syllabus
                 </a>
               </div>
+
+              {/* Deadline notice */}
+              <div className="mt-4 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                <svg
+                  className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path strokeLinecap="round" d="M12 7v5l3 3" />
+                </svg>
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  <span className="font-semibold">Submission window:</span>{" "}
+                  15 Apr 2026 – 26 Apr 2026 (till 5:00 PM). No changes accepted after deadline.
+                </p>
+              </div>
             </section>
 
-            {/* Guidelines & Eligibility */}
-            {/* Guidelines & Eligibility */}
-<section className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-  <h2 className="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">
-    Guidelines for Open Elective Allocation
-  </h2>
+            {/* ── Guidelines ── */}
+            <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-4">
+                Allocation Guidelines
+              </p>
 
-  <ul className="text-sm text-gray-800 list-disc pl-6 space-y-3">
-    
-    {/* Subject Choice Submission */}
-    <li>
-      <strong>Subject Choice Submission:</strong>
-      <ul className="list-disc pl-6 mt-1 space-y-1">
-        <li>
-          Each student must submit their choices priority-wise from the list of electives before the deadline.
-        </li>
-        <li>
-          A detailed syllabus for each elective subject is available on the website.
-        </li>
-      </ul>
-    </li>
-
-    {/* Eligibility Criteria */}
-    <li>
-      <strong>Eligibility Criteria for Allocation:</strong>
-      <ul className="list-disc pl-6 mt-1 space-y-1">
-        <li>
-          <strong>5th Semester Students (including re-appears):</strong> Allocation will be determined using the average SGPA from 1st to 3rd semesters.
-        </li>
-        <li>
-          <strong>7th Semester Regular Students:</strong> Allocation will be based on the 5th semester CGPA.
-        </li>
-        <li>
-          <strong>7th Semester Students (with Re-appear):</strong> Allocation will be determined using the average SGPA from 1st to 5th semesters.
-        </li>
-        <li>
-          <strong>Merit-Based Allocation Policy:</strong> Final allocation will be strictly merit-based. Students evaluated using CGPA will be given priority over those considered on average SGPA obtained due to re-appear.
-        </li>
-      </ul>
-    </li>
-
-    {/* Instructions */}
-    <li>
-      <strong>Instructions:</strong>
-      <ul className="list-disc pl-6 mt-1 space-y-1">
-        <li>
-          Students may edit their submitted choices at any time before the deadline.
-        </li>
-        <li>
-          <strong>Open Elective Choice Submission Window:</strong> 15th April 2026 to 26th April 2026 (till 5:00 PM). No submissions/changes will be accepted after the deadline.
-        </li>
-        <li>
-          Once a subject is allocated, no changes will be permitted.
-        </li>
-        <li>
-          Please verify your Open Elective choices after submission by checking them on the Home Page.
-        </li>
-      </ul>
-    </li>
-
-  </ul>
-</section>
-
-          </div>
+              {/* Sub-section */}
+              {[
+                {
+                  title: "Subject Choice Submission",
+                  items: [
+                    "Submit choices priority-wise from the electives list before the deadline.",
+                    "Detailed syllabus for each elective is available on the portal.",
+                  ],
+                },
+                {
+                  title: "Eligibility Criteria",
+                  items: [
+                    "5th Semester (incl. re-appears): Average SGPA from 1st to 3rd semesters.",
+                    "7th Semester Regular: Based on 5th semester CGPA.",
+                    "7th Semester with Re-appear: Average SGPA from 1st to 5th semesters.",
+                    "Merit policy: CGPA students are given priority over average SGPA candidates.",
+                  ],
+                },
+                {
+                  title: "Instructions",
+                  items: [
+                    "Choices may be edited at any time before the deadline.",
+                    "No submissions or changes accepted after the deadline.",
+                    "Once a subject is allocated, no changes will be permitted.",
+                    "Verify your Open Elective choices after submission from the home page.",
+                  ],
+                },
+              ].map((section, si) => (
+                <div key={si} className={si !== 0 ? "mt-5" : ""}>
+                  <p className="text-xs font-semibold text-gray-500 mb-2">{section.title}</p>
+                  <ul className="space-y-2">
+                    {section.items.map((item, ii) => (
+                      <li key={ii} className="flex items-start gap-2.5 text-sm text-gray-700 leading-relaxed">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </section>
+          </>
         )}
       </main>
 
-      {/* Scrollable Modal */}
+      {/* ── Modal ── */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-lg p-6 animate-fadeIn">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-gray-800">Your Chosen Electives</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-fadeIn">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h3 className="text-base font-bold text-gray-800">Your Chosen Electives</h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-600 hover:text-red-500 text-2xl font-bold"
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors text-lg font-bold leading-none"
               >
-                &times;
+                ×
               </button>
             </div>
-            {chosenElectives.length > 0 ? (
-              <ul className="max-h-64 overflow-y-auto pr-1 space-y-3">
-                {chosenElectives.map((choice, index) => (
-                  <li
-                    key={index}
-                    className="flex justify-between items-center p-4 bg-gray-100 rounded-md border"
-                  >
-                    <span className="font-medium text-gray-700">{index + 1}.{choice.name}</span>
-                    <span className="text-sm text-gray-500">(Code: {choice.code})</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-600">No electives selected.</p>
-            )}
+
+            {/* Modal Body */}
+            <div className="p-5">
+              {chosenElectives.length > 0 ? (
+                <ul className="space-y-2 max-h-64 overflow-y-auto pr-0.5">
+                  {chosenElectives.map((choice, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
+                    >
+                      <span className="text-sm font-semibold text-gray-800">
+                        {index + 1}. {choice.name}
+                      </span>
+                      <span className="text-xs bg-blue-50 text-blue-700 border border-blue-100 px-2.5 py-1 rounded-full font-medium flex-shrink-0 ml-3">
+                        {choice.code}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-gray-500 text-center py-6">No electives selected yet.</p>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-5 pb-5">
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold py-2.5 rounded-xl transition-colors"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -219,7 +272,3 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
-
-
-
-
