@@ -135,9 +135,9 @@ function StudentDashboard() {
 
                 <a
                   href={
-                    student.sem === 6
-                      ? "/6th Semester Open Elective Syllabus.pdf"
-                      : "/8th Semester Open Elective Courses Syllabus.pdf"
+                    student.sem === 5
+                      ? "/OE Syllabus of 5th Semester for AY 2026-27.docx"
+                      : "/OE Syllabus of 7th Semester for AY 2026-27.docx"
                   }
                   target="_blank"
                   rel="noopener noreferrer"
