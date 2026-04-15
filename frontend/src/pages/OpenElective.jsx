@@ -129,7 +129,7 @@ const UniqueDropdownForm = () => {
           </svg>
           <p className="text-xs text-amber-800 leading-relaxed">
             <span className="font-semibold">Submission window:</span>{' '}
-            15 Apr 2026 – 26 Apr 2026 (till 5:00 PM). All selections must be submitted before the deadline.
+            15 Apr 2026 – 27 Apr 2026 (till 5:00 PM). All selections must be submitted before the deadline.
           </p>
         </div>
 
