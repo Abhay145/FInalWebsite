@@ -161,7 +161,7 @@ function StudentDashboard() {
                 </svg>
                 <p className="text-xs text-amber-800 leading-relaxed">
                   <span className="font-semibold">Submission window:</span>{" "}
-                  15 Apr 2026 – 26 Apr 2026 (till 5:00 PM). No changes accepted after deadline.
+                  15 Apr 2026 – 27 Apr 2026 (till 5:00 PM). No changes accepted after deadline.
                 </p>
               </div>
             </section>
