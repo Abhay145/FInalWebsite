@@ -79,7 +79,7 @@ export default function Login() {
       <ul className="list-disc ml-5 mt-1 space-y-1">
         <li>Choices can be edited before the deadline.</li>
         <li>
-          <strong>Window:</strong> 15 April 2026 – 26 April 2026 (till 5:00 PM).
+          <strong>Window:</strong> 15 April 2026 – 27 April 2026 (till 5:00 PM).
         </li>
         <li>No submissions/changes after deadline.</li>
         <li>Once allocated, changes are not permitted.</li>
