@@ -86,7 +86,7 @@ const UniqueDropdownForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-{student?.sem === 7 && (
+{ (
   <div className="bg-yellow-400 text-yellow-900 text-xs font-semibold py-1.5 overflow-hidden">
     <style>{`
       @keyframes marqueeScroll {
