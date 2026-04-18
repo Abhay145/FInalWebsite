@@ -42,21 +42,21 @@ function StudentDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {student?.sem === 7 && (
-      <div className="bg-yellow-400 text-yellow-900 text-xs font-semibold py-1.5 overflow-hidden">
-        <marquee behavior="scroll" direction="left" scrollamount="5">
-          ⚠️&nbsp;&nbsp;IMPORTANT NOTICE FOR 7TH SEMESTER STUDENTS: Students who were already enrolled in&nbsp;
-          <strong>Logistics &amp; Supply Chain Management</strong>&nbsp;or&nbsp;
-          <strong>Industrial Engineering</strong>&nbsp;in 5th Sem should mark those subjects as&nbsp;
-          <strong>LEAST PRIORITY</strong>&nbsp;in their elective choices.
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️&nbsp;&nbsp;
-          IMPORTANT NOTICE FOR 7TH SEMESTER STUDENTS: Students who were already enrolled in&nbsp;
-          <strong>Logistics &amp; Supply Chain Management</strong>&nbsp;or&nbsp;
-          <strong>Industrial Engineering</strong>&nbsp;in 5th Sem should mark those subjects as&nbsp;
-          <strong>LEAST PRIORITY</strong>&nbsp;in their elective choices.
-        </marquee>
-      </div>
-    )}
+{student?.sem === 7 && (
+  <div className="bg-yellow-400 text-yellow-900 text-xs font-semibold py-1.5 overflow-hidden">
+    <marquee behavior="scroll" direction="left" scrollamount="10">
+      ⚠️&nbsp;&nbsp;IMPORTANT NOTICE FOR 7TH SEMESTER STUDENTS: Students who were already enrolled in&nbsp;
+      <strong>Logistics &amp; Supply Chain Management</strong>&nbsp;or&nbsp;
+      <strong>Industrial Engineering</strong>&nbsp;in 5th Sem should mark those subjects as&nbsp;
+      <strong>LEAST PRIORITY</strong>&nbsp;in their elective choices.
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️&nbsp;&nbsp;
+      IMPORTANT NOTICE FOR 7TH SEMESTER STUDENTS: Students who were already enrolled in&nbsp;
+      <strong>Logistics &amp; Supply Chain Management</strong>&nbsp;or&nbsp;
+      <strong>Industrial Engineering</strong>&nbsp;in 5th Sem should mark those subjects as&nbsp;
+      <strong>LEAST PRIORITY</strong>&nbsp;in their elective choices.
+    </marquee>
+  </div>
+)}
 
       {/* ── Header ── */}
       <header className="bg-gradient-to-r from-red-700 via-red-600 to-red-500 text-white px-6 py-4 flex items-center justify-between shadow-md">
